@@ -16,17 +16,19 @@ print(numbers, bonus_number)
 tmp_lotto = random.sample(range(45),6)      # random lottery numberspy
 
 count = [0,0,0,0]
-for i in range(100000):
-    tmp_lotto = random.sample(range(45),6)
-
-    if set(numbers) == set(tmp_lotto):      # first
+for i in range(8145060):
+    tmp_lotto = random.sample(range(1, 46),6)
+    a = set(numbers)
+    b = set(tmp_lotto)
+    c = a.intersection(b)
+    if len(c) == 6:      # first
         #print('congratulation!')
         count[0]+=1
-    elif len(set(numbers).intersection(set(tmp_lotto))) == 5 and bonus_number in set(tmp_lotto):
+    elif len(c) == 5 and bonus_number in set(tmp_lotto):
         count[1]+=1
-    elif len(set(numbers).intersection(set(tmp_lotto))) == 5:
+    elif len(c) == 5:
         count[2]+=1
-    elif len(set(numbers).intersection(set(tmp_lotto))) == 4:
+    elif len(c) == 4:
         count[3]+=1
 
 
