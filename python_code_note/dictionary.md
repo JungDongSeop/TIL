@@ -8,26 +8,24 @@ dict_A = dict()
 딕셔너리 값 추가
 
 ```python
-score['algorithm'] = 80
+dict_1['algorithm'] = 80
 ```
 
     딕셔너리 key 값에는 immutable만 들어갈 수 있음
 
     딕셔너리 value는 전부 가능
 
-
-
 딕셔너리 값 수정
 
 ```python
-score.update({'algorithm'} = 85)
- score ['algorithm'] = 85
+dict_1.update({'algorithm'} = 85)
+dict_1['algorithm'] = 85
 ```
 
 딕셔너리 값 삭제
 
 ```python
-del(score['algorithm'])
+del(dict_1['algorithm'])
 ```
 
 딕셔너리 2개 결합

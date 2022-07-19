@@ -16,6 +16,19 @@ list3 = list(map(list.__add__, list1, list2))
 print(list3)              #[[1, 10, 4, 2], [2, 22, 5, 9], [3, 19, 6, 3]]    
 ```
 
+배열 최댓값
+
+```python
+max(list1)
+min(list1)
+```
+
+배열 원소 count
+
+```python
+list1.count(1)
+```
+
 list 문자열로 출력
 
 ```python
@@ -31,3 +44,11 @@ print('안녕, {}야'.format(name))    # format 형
 ```
 
 string 은 immutable?? 몰랐음
+
+문자열 안의 특정 문자열 제거
+
+```python
+str = "hello, world"
+new_str = str.replace(',', '', 1)    # str의 ',' 를 1개만 삭제
+result = re.sub(',', '', str)        # import re 해야함
+```
