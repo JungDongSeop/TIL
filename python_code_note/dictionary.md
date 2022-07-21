@@ -36,10 +36,6 @@ dict_1.values()        # {[valus_1, calue_2]}
 dict_1.items()        # {[(key_1, value_1), (key_2, value_2)}
 ```
 
-
-
-
-
 딕셔너리 2개 결합
 
 ```python

@@ -202,7 +202,7 @@ dict_1 = {i : i ** 3 for iin range(1, 4)}    # dictionary comprehension
   
      `print()의 end = '\n' 등`
   
-  가변 인자              `*arg, list로 여러 개의 인자를 받을 때`
+  가변 인자              `*arg, list로 여러 개의 인자를 받을 때`  **인자들을 tuple로 처리**
   
   가변 키워드 인자 `**kwarg, 몇 개의 키워드 인자를 받을지 모르는 함수 정의할 때,                              dictionary로 묶여 처리`
 
@@ -226,3 +226,55 @@ lambda[parameter]:표현식
 # 
 
 # 모듈
+
+##### 모듈
+
+    다양한 기능을 하나의 file 로
+
+            코드를 .py 단위로 작성
+
+            `import module`
+
+            `from module import `
+
+            `from package import module`
+
+            `from package.module import var, function, Class`
+
+##### 패키지
+
+    다양한 file을 하나의 folder로
+
+            여러 module의 집합
+
+##### 라이브러리
+
+    다양한 package를 하나의 묶음으로
+
+##### pip   ~~~~
+
+    이것들의 관리자
+
+            PyPI 에 저장된 외부 package 들을 설치하도록 도와주는 package 관리 시스템
+
+            `$ pip install SomePackage`
+
+            `$ pip install SomePackage == 1.05`
+
+            `$ pip list`
+
+            `$ pip show SomePackage`
+
+            `$ pip freeze > requirements.txt`        패키지 목록을 관리 및 설치, 패키지를 기록하는 파일의 이름이 requirements.txt
+
+            `$ pip install -r requirements.txt`
+
+##### 가상환경
+
+    패키지의 활용 공간    
+
+            다양한 버전의 프로그래밍 언어 독립적인 package 로 관리 가능
+
+            `$ python -m venv <폴더명>`
+
+            `$ source venv/Scripts/activate`         가상환경 활성화/비활성화
