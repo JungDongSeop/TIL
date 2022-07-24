@@ -43,3 +43,26 @@ dict_sorted = sorted(dictA.items(), key = lambda x: x[1])
 ```python
 sum(dict1.value()) / len(sum)
 ```
+
+dict에서 key 검색할 때
+
+```python
+존재하지 않는 key 를 dictionary[key] 로 사용하면 오류 남
+(없으면 안되는, 오류가 발생해야 하는 상황일 때는 dicts[keys] 사)
+대신
+dicts.get('keys') 사용, value 반환, keys가 없으면 None 반환
+dicts.get('keys', '없을 시 이 문장 반환') 하면 뒤의 문자를 반
+```
+
+dict  크기 순으로 정렬
+
+```python
+# key 오름차순
+sorted_dict = sorted(my_dict.items())
+# key 내림차순
+sorted_dict = sorted(my_dict.items(), key = lambda item: item[0], reverse = True)
+# value 오름차순
+sorted_dict = sorted(my_dict.items(), key = lambda item: item[1])
+# value 내림차
+sorted_dict = sorted(my_dict.items(), key = lambda item: item[1], reverse = True)
+```
