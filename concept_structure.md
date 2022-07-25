@@ -278,3 +278,175 @@ lambda[parameter]:표현식
             `$ python -m venv <폴더명>`
 
             `$ source venv/Scripts/activate`         가상환경 활성화/비활성화
+
+---
+
+# 데이터 구조화
+
+### 메서드
+
+간단 설명 : 클래스 안에 정의된 함수 (즉 객체의 기능)
+
+`데이터 구조.메서드()` 형태로 활용
+
+예시
+
+```python
+List.append(10)
+String.split()
+```
+
+###### python 공식 문서 표기법(배커스-나우르 표기법)
+
+```python
+str.replace(old, new[, count])
+# old, new는 필수, [,count]는 선택적 인
+```
+
+### 문자열
+
+str 타입, 변경 불가능한 immutable
+
+    `word = 'ssafy' ; word = 'I'` 하면, 변수 `word`의 메모리 주소 자체가 바뀜
+
+    (아예 단어를 삭제하고 새로 저장)
+
+문자열 조회/탐색 및 검증 메서드
+
+```python
+s.find(x)         # x의 첫 번째 위치 반환, 없으면 -1
+s.index(x)         # x의 첫 번째 위치 반환, 없으면 오류 발
+s.isalpha()        # 알파벳 문자 여부, 단순 알파벳이 아니라 숫자인가 아닌가 판단
+s.isupper()        # 대문자 여부
+s.islower()        # 소문자 여부
+s.istitle()        # 타이틀 형식 여부
+```
+
+문자열 변경 메서드
+
+```python
+s.replacce(old, new[, count])        # 바꿀 대상 글자를 새로운 글자로 바꿔 반환               
+s.strip([chars])                    # 공백 or 특정 문자 제거(양쪽, lstrip은 왼쪽)
+s.split(sep = Npne, maxsplit = -1)    # 공백 or 특정 문자를 기준으로 분리, list로 반환                
+'separator'.join([iterable])        # 구분자로 iterable을 합침, 중간중간에 seperator로 분        
+s.capitalize()                        # 첫 번째 글자를 대문자로
+s.title()                            # 공백 다음 알파벳을 대문자
+s.upper()                            # 전부 대문자
+s.lower()                            # 전부 소문자
+s.swapcase()                        # 대 소문자 서로 변경
+```
+
+### 리스트
+
+가변 자료형(변경 가능)
+
+리스트 메서드
+
+```python
+L.append()                # list 마지막에 x 추가
+L.insert(i,x)            # list 인덱스 i에 x 삽입 (x가 list 길이보다 크면 맨 뒤)
+L.remove(x)                # 가장 왼쪽에 있는 항목(첫번째) x를 제거, 존재하지 않으면 error
+L.pop()                    # list 가장 오른쪽 항목(마지막) 반환 후 제거
+L.pop(i)                    # list 인덱스 i의 항목 반환 후 제거
+L.extend(m)                # 순회형(iterable) m의 모든 항목들을 list 끝에 추가
+L.index(x, start, end)    # list 항목 중 가장 왼쪽에 있는 항목 x의 인덱스 반환    
+L.reverse()                # list 거꾸로 정렬
+L.sort()                    # list 정렬
+L.count(x)                # list에서 항목 x의 갯수 반
+```
+
+시퀀스형 연산자
+
+```python
+[a,b] + [c,d]        # 산술연산자ㅏ
+[a,b] * 3             # 반복연산자
+```
+
+### 집합
+
+셋 메서드
+
+```python
+s.copy()        # set의 얕은 복사
+s.add(x)        # set에 항목 x 추가
+s.pop()        # set에 랜덤 항목 반환, set이 비어있을 경우 error
+s.remove(x)   # set에 항목 x 삭제, 항목이 없으면 error
+s.discard(x)  # set에 항목 x 삭제, 항목 없으면 삭제
+s.update(t)   # set s에 t의 원소를 합침
+s.clear()     # 모든 항목 제거
+s.isdisjoint(t) # s와 t의 교집합이 공집합이면 True 반환
+s.issubset(t)   # s가 t의 부분집합이면 True 반환
+s.issuperset(t) # t가 s의 부분집합이면 True 반환
+```
+
+### 딕셔너리
+
+key 는 immutable 데이터만 사용 가능, ordered
+
+value 는 상관없음
+
+```python
+d.clear()    # 모든 항목 제거
+d.copy()     # d의 얕은 복사본 반환
+d.keys()     # d의 모든 키를 담은 뷰를 반환
+d.values()   # d의 모든 값을 담은 뷰를 반환
+d.items()    # d의 모든 키-값 tuple을 담은 뷰를 반환
+d.get(k)     # 키 k의 값을 반환, 없으면 None 반환
+d.get(k,v)   # 키 k의 값을 반환, 없으면 v 반환
+d.pop(k)     # 키 k의 값을 반환하고 키 k인 항목을 d에서 삭제, 없으면 error
+d.pop(k,v)   # 키 k의 값을 반환하고 키 k인 항목을 d에서 삭제, 없으면 v 반환
+d.update([other])  # d의 값을 매핑하여 업데이트
+```
+
+## 얕은 복사
+
+복사방법
+
+1. 할당
+   
+   대입 연산자 `=`
+   
+   ```python
+   listA = [1,2,3]
+   copy_listA = listA
+   copy_listA[0] = 'hello'
+           # 이 때 listA = ['hello', 2, 3]
+   ```
+   
+   `=`를 통한 복사는 해당 객체에 대한 객체 참조를 복사 `얕은 복사`
+
+2. 얕은 복사
+   
+   b는 a와 다른 주소에, a에 대한 내용물을 복사하여 저장
+   
+   주소 자체가 다르니, 수정해도 값 연동 x
+   
+   ```python
+   a = [1,2,3]
+   b = a[:]
+   b[0] = 5
+   print(a, b)    # [1,2,3] [5,2,3]
+           # but 1차원에서만 가능
+   ```
+   
+   2차원에서는
+   
+   ```python
+   a = [1,2,['a','b']]
+   b = a[:]
+   b[2][0] = 0
+   print(a,b)  # [1,2,[0,'b']
+           # 2차원 값의 주소를 복사해옴
+   ```
+
+3. 깊은 복사
+   
+   이 문제를 해결
+   
+   ```python
+   import copy
+   a = [1,2,['a','b']]
+   b = copy.deepcopy(a)
+   b[2][0] = 0
+   print(a,b)   # [1,2,['a','b']] [1,2,[0,'b']]
+   ```
