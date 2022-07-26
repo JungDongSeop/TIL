@@ -72,6 +72,8 @@
 
 - +, -, \*, /, //, \*\*
 
+---
+
 # 자료형
 
 1. Boolean
@@ -142,6 +144,8 @@
    
    2. 딕셔너리
 
+---
+
 # 조건문
 
 ```python
@@ -154,7 +158,7 @@ else:
 조건 표현식
 
 ```python
-ㅍtrue인 경우 값 if 조건 else false인 경우 값
+true인 경우 값 if 조건 else false인 경우 값
 ```
 
 # 반복문
@@ -183,6 +187,8 @@ dict_1 = {i : i ** 3 for iin range(1, 4)}    # dictionary comprehension
 - for_else
 
 - pass
+
+---
 
 # 함수
 
@@ -223,7 +229,7 @@ zip(*iterable)                # 여러 iterable을 모아 tuple을 원소로 하
 lambda[parameter]:표현식
 ```
 
-# 
+---
 
 # 모듈
 
@@ -305,9 +311,9 @@ str.replace(old, new[, count])
 
 ### 문자열
 
-str 타입, 변경 불가능한 immutable
+str 타입, 변경 불가능한 **imutable**   
 
-    `word = 'ssafy' ; word = 'I'` 하면, 변수 `word`의 메모리 주소 자체가 바뀜
+`word = 'ssafy' ; word = 'I'` 하면, 변수 `word`의 메모리 주소 자체가 바뀜
 
     (아예 단어를 삭제하고 새로 저장)
 
@@ -328,7 +334,8 @@ s.istitle()        # 타이틀 형식 여부
 s.replacce(old, new[, count])        # 바꿀 대상 글자를 새로운 글자로 바꿔 반환               
 s.strip([chars])                    # 공백 or 특정 문자 제거(양쪽, lstrip은 왼쪽)
 s.split(sep = Npne, maxsplit = -1)    # 공백 or 특정 문자를 기준으로 분리, list로 반환                
-'separator'.join([iterable])        # 구분자로 iterable을 합침, 중간중간에 seperator로 분        
+'separator'.join([iterable])        # 구분자로 iterable을 합침, 중간중간에 seperator로 분리       
+    # 문자열 ''.join(iterable) 이니 문자열 메서드임
 s.capitalize()                        # 첫 번째 글자를 대문자로
 s.title()                            # 공백 다음 알파벳을 대문자
 s.upper()                            # 전부 대문자
@@ -343,7 +350,7 @@ s.swapcase()                        # 대 소문자 서로 변경
 리스트 메서드
 
 ```python
-L.append()                # list 마지막에 x 추가
+L.append(x)                # list 마지막에 x 추가
 L.insert(i,x)            # list 인덱스 i에 x 삽입 (x가 list 길이보다 크면 맨 뒤)
 L.remove(x)                # 가장 왼쪽에 있는 항목(첫번째) x를 제거, 존재하지 않으면 error
 L.pop()                    # list 가장 오른쪽 항목(마지막) 반환 후 제거
@@ -400,6 +407,10 @@ d.update([other])  # d의 값을 매핑하여 업데이트
 
 ## 얕은 복사
 
+    <mark>부연설명 : 변수 `a = 1`에서, `a`는 숫자 `1`이 저장된 메모리 주소를 뜻함</mark>
+
+        (박스 안의 내용물이 아닌, 박스의 위치를 저장)
+
 복사방법
 
 1. 할당
@@ -409,7 +420,7 @@ d.update([other])  # d의 값을 매핑하여 업데이트
    ```python
    listA = [1,2,3]
    copy_listA = listA
-   copy_listA[0] = 'hello'
+   copy_listA[0] = 'hello'    # 박스의 위치에 접근해서 데이터를 바
            # 이 때 listA = ['hello', 2, 3]
    ```
    
@@ -423,10 +434,11 @@ d.update([other])  # d의 값을 매핑하여 업데이트
    
    ```python
    a = [1,2,3]
-   b = a[:]
+   b = a[:]        # 슬라이싱 사용하면, 다른 주소에 a의 내용물을 복사하여 저장
    b[0] = 5
    print(a, b)    # [1,2,3] [5,2,3]
-           # but 1차원에서만 가능
+           # but 1차원에서만 가능 (왜? b[0]이 list면 그 list의 주소를 복사하여
+                               # 별도의 메모리에 저장하기 때)
    ```
    
    2차원에서는
