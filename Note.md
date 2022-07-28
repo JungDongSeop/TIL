@@ -85,7 +85,7 @@ class 에서 메서드 작성할 때 클래스 변수 사용하기
 class Doggy:
     num_of_dogs = 0
     birth_of_dogs = 0
-    
+
     def __init__(self, name, breed):
         self.name = name
         self.breed = breed
@@ -97,7 +97,11 @@ class 메서드 할 때는 `@classmethod` 넣고 작성
 
     안그러면 그냥 인스턴스 메서드로 들어감
 
+    클래스 메서드는 인스턴스 변수나 메서드 아예 안쓰는 메서드 작성 시 사용
 
+dictionary는 sequence가 아님
+
+dictA.get('key') 할 때 key가 없으면 None 반환
 
 ## 관통 PJT
 
