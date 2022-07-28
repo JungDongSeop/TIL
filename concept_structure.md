@@ -584,6 +584,7 @@ class Circle():
     pi = 3.14        # 클래스 변수
     def __init__(self, r):
         self.r = r    # 인스턴스 변수
+        self.arbitrary = r*r  # 내맘대로 만든 인스턴스 변수
 c1 = Circle(5)
 c1.pi = 5            # 인스턴스 변수 바꿈
 Circle.pi = 5        # 클래스 변수 바

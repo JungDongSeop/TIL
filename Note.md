@@ -79,6 +79,26 @@ ctrl + Alt + 방향키    # 여러 줄에 동시에 입력 가
 
 코드 짤 때 무엇이 주체인지 생각하고 코드 짜기!!
 
+class 에서 메서드 작성할 때 클래스 변수 사용하기
+
+```python
+class Doggy:
+    num_of_dogs = 0
+    birth_of_dogs = 0
+    
+    def __init__(self, name, breed):
+        self.name = name
+        self.breed = breed
+        Doggy.num_of_dogs += 1        # 클래스.클래스변수 이런 식으로 해야
+        Doggy.birth_of_dogs += 1
+```
+
+class 메서드 할 때는 `@classmethod` 넣고 작성
+
+    안그러면 그냥 인스턴스 메서드로 들어감
+
+
+
 ## 관통 PJT
 
 길러야 하는 것 : 자료를 보는 법, PJT 경험
