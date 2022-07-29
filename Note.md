@@ -79,6 +79,8 @@ ctrl + Alt + 방향키    # 여러 줄에 동시에 입력 가
 
 코드 짤 때 무엇이 주체인지 생각하고 코드 짜기!!
 
+.
+
 class 에서 메서드 작성할 때 클래스 변수 사용하기
 
 ```python
@@ -101,7 +103,24 @@ class 메서드 할 때는 `@classmethod` 넣고 작성
 
 dictionary는 sequence가 아님
 
+.
+
 dictA.get('key') 할 때 key가 없으면 None 반환
+
+.
+
+인터넷 rest api 로 데이터 받는 법
+
+```python
+URL = 'https://api.agify.io'
+
+params = {
+    'name': 'michael',
+    'country_id': 'KR',
+}
+
+response = requests.get(URL, params=params).json()
+```
 
 ## 관통 PJT
 
