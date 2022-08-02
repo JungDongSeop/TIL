@@ -122,6 +122,8 @@ params = {
 response = requests.get(URL, params=params).json()
 ```
 
+html : CSS 선택자에 마우스 올리면 명시도? 순서도? 나타남
+
 ## 관통 PJT
 
 길러야 하는 것 : 자료를 보는 법, PJT 경험
@@ -165,3 +167,19 @@ pjt 하나 당 1 repository 만들어서 올리기
 5. 후기
    
    그 외에 어떤 함수 썻는지, 어떤 방법 쓰니까 좋았는지, 헷갈리는 거, 실패한 코드와 그 이유, 기타 등등 전부 작성
+
+### 질문
+
+style 태그는 head 에 넣는게 일반적인가? Y
+
+form 태그 : 내가 가진 정보를 어딘가로 보내는 태그, enter을 입력하면 내가 입력한 정보가 전송됨, action이 비어있으면 내 현재 위치로 
+
+css 하다가 모르겠는 경우 : 임시로 class="test" 한 뒤 test에 이것저것 넣어서 판단,
+
+    크롬 켜서 f12 눌러서 확인
+
+`border: 5px dashed yellow;` 이런거 적어서 경계, 컨텐츠크기 등 파악
+
+일반 형제 결합자 : `A ~ B{ color: red;}` A 부모 벗어나기 전까지의 B에 설정
+
+인접 형제 결합자 : `A + B{ color: red;}` A 바로 다음의 B에 설정
