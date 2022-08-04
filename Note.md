@@ -112,9 +112,9 @@ dictA.get('key') 할 때 key가 없으면 None 반환
 인터넷 rest api 로 데이터 받는 법
 
 ```python
-URL = 'https://api.agify.io'
+URL = 'https://api.agify.io' # base url
 
-params = {
+params = {                    # query string 
     'name': 'michael',
     'country_id': 'KR',
 }
