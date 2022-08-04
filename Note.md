@@ -124,6 +124,14 @@ response = requests.get(URL, params=params).json()
 
 html : CSS 선택자에 마우스 올리면 명시도? 순서도? 나타남
 
+bootstrap 에서 d-flex는 부모의 class에 부여, 그 후 정렬하고 싶은거 생기면 임의로 부모 만든 뒤 justify~ 작성
+
+이미지 크기 조절은 `<a>`에서 `style="width: 30px"`, `<img>`에서 `class="img-fluid"`
+
+이미지 간격 조절은 `<a>`에서 `class="mx-3"`
+
+## 관통 PJT
+
 ## 관통 PJT
 
 길러야 하는 것 : 자료를 보는 법, PJT 경험
@@ -183,3 +191,5 @@ css 하다가 모르겠는 경우 : 임시로 class="test" 한 뒤 test에 이�
 일반 형제 결합자 : `A ~ B{ color: red;}` A 부모 벗어나기 전까지의 B에 설정
 
 인접 형제 결합자 : `A + B{ color: red;}` A 바로 다음의 B에 설정
+
+bootstrap에서 대체 width-75 쓰면 justify-content-center 안되는 이유가 뭐지?
