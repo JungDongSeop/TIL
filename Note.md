@@ -109,6 +109,44 @@ dictA.get('key') 할 때 key가 없으면 None 반환
 
 .
 
+path parameter
+
+중괄호 안에 들어갈 단어?
+
+? 뒤 Query String
+
+?api_key=_****__****
+
+&language=en_US (아니면 en_UK, ko_KR 등등 골라서)
+
+이렇게 경로를 만들어서 request 하면 됨
+
+responses
+
+200 : 성공
+
+404 : 요청한 주소 존재하지 않음
+
+401 : 인증받지 않은 유저 (api key 없을 때)
+
+python requests 사용법
+
+```python
+import requests
+
+url = 'https://api.agify.io/?name=jun'
+response = requests.get(url)        # response는 dict, list 등 제공된 데이터 형태
+requests.get(url).json()
+```
+
+url 예시 : [https://www.agify.io/movie.{movie_id}](https://www.agify.io/movie.%7Bmovie_id%7D)
+
+api_key 필요
+
+회원가입 후 api_key 신청, 발급, 그 key값 저장해둔 뒤 계속 사용
+
+notion 공용 문서에 발급받는 방법 설명 나옴
+
 인터넷 rest api 로 데이터 받는 법
 
 ```python
@@ -121,6 +159,16 @@ params = {                    # query string
 
 response = requests.get(URL, params=params).json()
 ```
+
+html : CSS 선택자에 마우스 올리면 명시도? 순서도? 나타남
+
+bootstrap 에서 d-flex는 부모의 class에 부여, 그 후 정렬하고 싶은거 생기면 임의로 부모 만든 뒤 justify~ 작성
+
+이미지 크기 조절은 `<a>`에서 `style="width: 30px"`, `<img>`에서 `class="img-fluid"`
+
+이미지 간격 조절은 `<a>`에서 `class="mx-3"`
+
+## 관통 PJT
 
 ## 관통 PJT
 
@@ -165,3 +213,21 @@ pjt 하나 당 1 repository 만들어서 올리기
 5. 후기
    
    그 외에 어떤 함수 썻는지, 어떤 방법 쓰니까 좋았는지, 헷갈리는 거, 실패한 코드와 그 이유, 기타 등등 전부 작성
+
+### 질문
+
+style 태그는 head 에 넣는게 일반적인가? Y
+
+form 태그 : 내가 가진 정보를 어딘가로 보내는 태그, enter을 입력하면 내가 입력한 정보가 전송됨, action이 비어있으면 내 현재 위치로 
+
+css 하다가 모르겠는 경우 : 임시로 class="test" 한 뒤 test에 이것저것 넣어서 판단,
+
+    크롬 켜서 f12 눌러서 확인
+
+`border: 5px dashed yellow;` 이런거 적어서 경계, 컨텐츠크기 등 파악
+
+일반 형제 결합자 : `A ~ B{ color: red;}` A 부모 벗어나기 전까지의 B에 설정
+
+인접 형제 결합자 : `A + B{ color: red;}` A 바로 다음의 B에 설정
+
+bootstrap에서 대체 width-75 쓰면 justify-content-center 안되는 이유가 뭐지?
