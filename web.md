@@ -274,3 +274,15 @@ flexboxdefense.com
 userinyerface.com
 
 수요일 강의 마지막 실습 다시 한 번 보기
+
+---
+
+하이퍼링크 태그 `<a>`는 한줄로만 쓰기
+
+bootstrap 덕지덕지 할 바에는 그냥 css로 깔끔하게 적기(class 하나로 표현)
+
+상단 이동 버튼 : `<a href="#banner" class="pageup-btn"></a>`, css에 
+
+`.pageup-btn{background: url(버튼 사진 위치); 등등 서식 적기}`
+
+p, span 차이 : span은 inline 형태?
