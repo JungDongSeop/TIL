@@ -168,7 +168,7 @@ bootstrap 에서 d-flex는 부모의 class에 부여, 그 후 정렬하고 싶�
 
 이미지 간격 조절은 `<a>`에서 `class="mx-3"`
 
-## 관통 PJT
+# 
 
 ## 관통 PJT
 
