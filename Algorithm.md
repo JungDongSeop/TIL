@@ -104,3 +104,162 @@ for i in range(1<<N):
 1 2 3 6
 
 1 2 4 5
+
+## 스택
+
+- 선형구조, 후입선출
+
+- 저장소 자체를 스택이라 부르기도 함
+
+- 스택에서 마지막 삽입된 원소의 위치를 top (stack pointer) 이라 함
+
+- 연산
+  
+  - 삽입: 저장소에 자료 저장. push라 부름
+  
+  - 삭제 : 저장소에서 자료 꺼냄, 꺼낸 자료는 삽입 자료의 역순으로 꺼냄, pop
+  
+  - isempty (공백 확인, pop 전에 사용?), peek (top에 있는 원소를 반환)
+
+append, pop은 느림, 그 때 배열 크기를 정하고, 스택을 함수로 구현하면 괜찮은 경우가 있다?
+
+구현
+
+```python
+stacksize = 10
+stack = [0] * stackSize
+top = -1
+
+
+top += 1        # top 증가
+stack[top] = 1    # 스택에 push
+
+top += 1        # push(2)
+stack[top] = 2
+
+top -= 1        # pop
+temp = stack[top + 1]
+print(temp)
+
+temp = stack[top]
+top -= 1
+print(temp)
+```
+
+- 고려사항 : 스택의 크기 변경이 어렵다. 이는 동적 연결리스트를 이용하여 해결(복잡하지만, 메모리를 효율적으로 사용 가능)
+
+스택 응용 : 괄호 검사 문제 풀기, 프로그래밍 언어의 함수 실행
+
+## 재귀 호출
+
+- 자기 자신을 호출하여 순환 수행되는 것
+
+- 경우에 따라 일반적인 함수보다 간단하고 크기도 작게 작성 가능
+
+- 메모이제이션을 활용해 실행 속도 향상 가능
+
+- memoizatioin을 재귀적 구조에 사용하는 것보다, 반복적 구조로 DP를 구현하는 것이 더 효율적 (함수 호출 없이 테이블을 체우므로)
+
+## DP (Dynamic programing)
+
+- 최적화 문제를 해결하는 알고리즘, 먼저 입력 크기가 작은 부분 문제들을 모두 해결한 뒤, 그 해들을 이용하여 큰 부분문제들을 해결
+
+- 메모이제이션도 DP의 일종
+
+- top-down : 하향식 접근, 큰 문제들을 작은 문제들로 나누고, 작은 문제들을 풂
+
+- bottom-up : 작은 문제들을 먼저 풀고, 이후 큰 문제들을 풂 (타뷸레이션, tabulation)
+
+피보나치 dp 예시
+
+```python
+def fibo_dp(n):
+    f = [0, 1]
+
+    for i in range(2, n + 1):
+        f.append(f[i-1] + f[i-2])
+
+    return f[n]
+```
+
+## DFS, BFS
+
+비선형구조인 그래프 구조는 그래프로 표현된 모든 자료를 빠짐없이 검색하는 것이 중요
+
+## DFS
+
+- 깊이 우선 탐색(Depth First Search)
+
+- 갈 수 있는 한 깊이 탐색, 더이상 갈 수 없으면 마지막 갈림길로 되돌라와서 다른 방향으로 탐색을 반복
+
+- 가장 마지막의 갈림길의 정점으로 되돌아가서 DFS를 반복하니, 후입선출 구조의 스택 사용
+
+- 구조
+  
+  1. 시작 정점 v를 결정하여 방문
+  
+  2. v에 인접한 정점 중에서 
+     
+     - 방문하지 않은 정점 w가 있으면, 정점 v를 스택에 push하고 정점 w를 방문
+     
+     - 방문하지 않은 정점이 없으면, 탐색의 방향을 바꾸기 위해서 스택을 pop하여 받은 가장 마지막 방문 정점을 v로 하여 다시 2. 반복
+  
+  3- 스택이 공백이 될 때까지 2.를 반복
+
+- 논리 구조       
+
+```
+visited[], stack[] 초기화 (visited는 전부 False로, stack은 공백으)
+DFS(v)
+    시작점 v 방문
+    visited[v] 가 true;
+    while{
+        if (v의 인접 정점 중 방문 안 한 정점 w가 있으면)
+            push(v);
+            v <= w;  (w에 방문)
+        else
+            if (스택이 비어 있지 않으면)
+                v = pop(stack)
+            else
+                break
+    }
+end DFS
+```
+
+- 코드
+
+```python
+adjList = [[1,2], .. ] (인접한 목록 리스트)
+def dfs(v, N):            # N은 정점의 개
+    visited = [0] * N    # visited
+    stack = [0] * N        # stack
+    top = -1
+
+    visited[v] = 1        # 시작점 방문 표시
+    while True:
+        for w in adjList[v]: # if (v의 인접 정점 중 방문 안 한 정점 w가 있으면)
+            if visited[w] == 0:  # push(v);
+                top += 1
+                stack[top] = v  
+                v = w            # v <= w; (w에 방문)
+                visited[w] = 1   # visited[w] <= True
+                break
+        else:                    # w가 없으면
+            if top != -1:        # 스택이 비어있지 않은 경우
+                v = stack[top]       # pop
+                top -= 1
+            else:                # 스택이 비어있으면
+                break                # while 빠져나감
+```
+
+재귀로도 표현 가능
+
+```python
+
+```
+
+## BFS
+
+- 너비 우선 탐색(Breadth First Search)
+
+dd
