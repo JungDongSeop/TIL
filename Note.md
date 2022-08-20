@@ -233,3 +233,10 @@ css 하다가 모르겠는 경우 : 임시로 class="test" 한 뒤 test에 이�
 인접 형제 결합자 : `A + B{ color: red;}` A 바로 다음의 B에 설정
 
 bootstrap에서 대체 width-75 쓰면 justify-content-center 안되는 이유가 뭐지?
+
+# 새로  git 설정하는 방법
+
+- git clone <원하는 url>
+- 이후 git add, commit, push 하면 로그인 창이 뜸?
+- 이게 맞나?
+- 윈도우 자격 증명 관리자 가서 git 설정 다 됐나 확인
