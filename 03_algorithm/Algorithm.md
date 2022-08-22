@@ -257,7 +257,13 @@ def dfs(v, N):            # N은 정점의 개
 재귀로도 표현 가능
 
 ```python
+def DFS(start):
+    visited[start] = 1
+    print(start, visited)
 
+    for next in range(1, V+1):
+        if G[start][next] == 1 and visited[next] == 0:
+            DFS(next)
 ```
 
 ## BFS
