@@ -238,5 +238,23 @@ bootstrap에서 대체 width-75 쓰면 justify-content-center 안되는 이유�
 
 - git clone <원하는 url>
 - 이후 git add, commit, push 하면 로그인 창이 뜸?
-- 이게 맞나?
+- 이게 맞나? 아니었다. 
+
+  `git config --global --lsit` 해서 내 이름 확인
+  
+  ```
+  -- 사용자 이름을 선택하여 삭제
+  git config --global --unset user.name 사용자이름
+  -- 전체 사용자 이름 삭제
+  git config --global --unset-all user.name
+  -- 사용자 이메일을 선택하여 삭제
+  git config --global --unset user.email 사용자이메일
+  -- 전체 사용자 이메일 삭제
+  git config --global --unset-all user.email
+  -- 사용자 이름, 이메일 추가
+  git config --global user.name 사용자이름
+  git config --global user.email 사용자이메일
+  ```
+  
+  
 - 윈도우 자격 증명 관리자 가서 git 설정 다 됐나 확인
