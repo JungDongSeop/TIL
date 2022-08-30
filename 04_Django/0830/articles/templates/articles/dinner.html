@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% comment %} extends는 무조건 첫줄에, 주석도 안됨 {% endcomment %}
+
+
+
+{% comment %} base.html의 속성(bootstrap) 상속 {% endcomment %}
+{% block content %}
+  <h1>오늘 저녁 메뉴는 {{foods}}입니다.</h1>
+  <p>추천 메뉴는 {{random_menu}}입니다.</p>
+
+  <p>메뉴판1</p>
+  <ul>
+    <li>라면</li>
+    <li>김밥</li>
+  </ul>
+
+  {% comment %} 반복문 활용 {% endcomment %}
+  <p>메뉴판2</p>
+  <ul>
+    {% for menu in foods %}
+      <li>{{menu}}</li>
+    {% endfor %}
+  </ul>
+
+  {% comment %} 리스트가 비어있으면 아무것도 출력 안됨, 이 때 empty 쓰면 원하는 글 출력 {% endcomment %}
+  {% for money in wallet %}
+    <p>{{money}}</p>
+  {% empty %}
+    <p>돈이 없어요...</p>
+  {% endfor %}
+
+  {% comment %} 인덱스 접근 {% endcomment %}
+  {% comment %} foods[0] 같은 방법으로는 접근 안됨 {% endcomment %}
+  {% comment %} 인덱스 접근은 foods.idx (근데 잘 안씀) {% endcomment %}
+  <p>첫번째 저녁메뉴는 {{ foods.0 }}</p>
+
+  <ul>
+    {% for menu in foods %}
+      {% if forloop.first %}
+        <li>{{ menu }} 맛있다.</li>
+      {% else %}
+        <li>{{ menu }}</li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+
+
+  
+  {% comment %} lorem : 로렘 잇섬에 대한 설명이 적힌 글이 저장되어 있음 {% endcomment %}
+  {% comment %} 순서대로 5글자만, 5글자 랜덤으로, 2문단만 출력 {% endcomment %}
+  <p>
+    {% lorem 5 w %}
+  </p>
+  <p>
+    {% lorem 5 w random %}
+  </p>
+  <p>
+    {% lorem 2 p %}
+  </p>
+{% endblock content %}
+
+
+
+

@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% comment %} extends는 무조건 첫줄에, 주석도 안됨 {% endcomment %}
+
+
+{% block content %}
+  <h1>안녕하세요, {{name}} 님!</h1>
+  <p>오늘 점심 메뉴 목록 {{foods|join:", "}}</p>
+{% endblock content %}
