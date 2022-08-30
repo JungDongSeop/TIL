@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+  <h1>데이터 던지는 곳</h1>
+  
+  {% comment %} 메서드는 기본적으로 GET {% endcomment %}
+  {% comment %} action에는 상대/절대 경로를 모두 쓸 수 있다. {% endcomment %}
+  <form action="/catch/">
+    <label for="username">Name</label>
+    {% comment %} name:value 형태로 묶어서 보냄 {% endcomment %}
+    <input type="text" id="username" name="username">
+    <input type="submit">
+  </form>
+{% endblock content %}
