@@ -5,6 +5,6 @@
   <p>사용자명 : {{ username }}</p>
 
   {% comment %} 처음엔 cathc/라는 url이었지만, 이를 바꾸고 싶어서 ping/으로 바꿈. 그때도 여전히 연결하기 위해서, name을 추가 {% endcomment %}
-  <a href="{% url 'throw' %}">[BACK]</a>
+  <a href="{% url 'articles:throw' %}">[BACK]</a>
   <a href="/throw/">[BACK]</a>
 {% endblock content %}
