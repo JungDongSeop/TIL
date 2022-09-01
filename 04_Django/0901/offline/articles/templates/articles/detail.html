@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>DETAIL PAGE</h1>
+  <p>글 번호 : {{ article.pk}}</p>
+  <p>글 제목 : {{ article.title }}</p>
+  <hr>
+  <p>글 내용 : {{ article.content }}</p>
+  <hr>
+  <a href="{% url 'articles:edit' article.pk %}">[EDIT]</a>
+  {% comment %} POST 요청을 보낼 수 있는 유일한 방법 {% endcomment %}
+  <form action="{% url 'articles:delete' article.pk %}" method="POST">
+    {% csrf_token %}
+    <input type="submit" value="DELETE">
+  </form>
+  
+  {% comment %} <a href="" method="POST"></a> 메서드 속성 없음 {% endcomment %}
+  <a href="{% url 'articles:index' %}">[BACK]</a>
+{% endblock content %}

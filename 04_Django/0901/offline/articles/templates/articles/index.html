@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% comment %} 상속 받을 서식을 저장해놓은 html {% endcomment %}
+{% comment %} templates 안에 있어야 하지만, 모든 html이 다 사용할 거니까 {% endcomment %}
+{% comment %} 최상위 폴더에 templates 만들고 bsae.html 만들기 {% endcomment %}
+{% comment %} 이를 settings.py에서 TEMPLATES 에 'DIRS': [BASE_DIR / 'templates']로 수정 {% endcomment %}
+{% comment %} (기본적으로 장고는 app만을 찾기 때문에) {% endcomment %}
+
+{% block content %}
+
+  <h1>INDEX PAGE</h1>
+  <a href="{% url 'articles:new' %}">[CREATE]</a>
+  
+  {% for article in articles %}
+    <p>{{ article.pk }}</p>
+    
+    <a href="{% url 'articles:detail' article.pk %}">
+      <p>{{ article.title }}</p>
+    </a>
+    
+    <p>{{ article.content }}</p>
+    <hr>
+  {% endfor %}
+{% endblock content %}
+
+{% comment %} {% block footer %}
+  <p>나는 좀 다른 footer가 필요해</p>
+{% endblock footer %} {% endcomment %}
