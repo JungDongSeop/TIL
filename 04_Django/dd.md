@@ -445,3 +445,141 @@ class Article(models.Model):
 ## CRUD with view functions
 
 - 이전에 익힌 QuerySet API를 통해, view 함수에서 직접 CRUD 구현하기
+
+
+
+# Django Form
+
+- 현재 우리 django 서버는 들어오는 요청을 모두 수용
+- 이 중 악의적인 요청을 검증하기 위한, "유효성 검증" 이 반드시 필요
+- Django Form 은 이 과정에서의 작업을 줄여줌 (단순화 + 자동화)
+
+작업의 처리
+
+1. 렌더링을 위한 데이터 준비 및 재구성
+2. 데이터에 대한 HTML forms 생성
+3. 클라이언트로부터 바등ㄴ 데이터 수신 및 처리
+
+## Form Class
+
+선언
+
+- model class를 선언하는 것과 비슷
+
+- 상속을 통해 선언
+
+- html에 `{{ form }}`을 입력해 사용
+  - as_p() : 각 필드가 <p> 태그로 감싸져서 렌더링
+  - as_ul() : 잘 안씀
+  - as_table() : 잘 안씀
+
+### 2가지 HTML input 요소
+
+1. Form fields
+
+   - 입력에 대한 유효성 검사 로직
+
+2. Widgets
+
+   - 웹 페이지의 HTML Input 요소 렌더링을 담당
+
+     `forms.CharField()`
+
+   - 반드시 form fields에 할당됨
+
+     `forms.CharField(widget=forms.Textares)`
+
+   - 단순히 HTML 렌더링을 처리하는 것뿐, 유효성 검증과 아무런 관계 없음
+
+- 위 둘을 django form field와 widget 공식문서를 찾아보며 사용
+
+
+
+## Django ModelForm
+
+model이랑 form class랑 중복되는 부분이 많다? (model class의 정보를 form에 맵핑하기 위해 form class 에 재정의)
+
+=> 통합 가능, 이것이 ModelForm
+
+ModelForm Class : Model을 통해 Form Class를 만들 수 있는 helper class
+
+선언
+
+- forms 라이브러리에서 파생된 ModelForm 클래스를 상속받음
+
+Meta Class
+
+- modelForm의 정보를 작성하는 곳
+- 변수 `model = Articles`(class 명), `field = '__all__'` 을 선언, 참조하는 모델에 정의된 field 정보를 Form에 적용함
+
+
+
+- Meta data
+
+  - 데이터를 표현하기 위한 데이터 (ex. 사진 파일 안의 위치, 시간정보 등)
+
+  - fields 속성에 `'__all__' `을 사용하여 모델의 모든 필드를 포함할 수 있음
+
+    혹은 exclude 속성을 사용하여 모델에서 뺄 필드를 지정할 수 있음
+
+- 참조값과 반환값
+
+  - model = Articles 로 함수를 호출하면, 함수의 참조값을 출력 (반환값이 아님)
+
+
+
+CREATE
+
+- 유효성 검사를 통과하면 save()
+  - is_valid() : 유효성 검사를 실행하고 유효한지 판단하는 메서드
+  - svae() : form 인스턴스에 바인딩 된 데이터를 통해 데이터베이스 객체를 만들고 저장
+    - 키워드 인자 instance가 존재하면 수정(update), 존재하지 않으면 생성(create)
+  - 만약 is_valid()를 통과되지 못하면, `form.error`에 에러 원인을 저장함
+
+
+
+Form : 사용자로부터 받은 데이터가 DB와 연관되지 않는 경우 (로그인 등)
+
+ModelForm : 사용자로부터 받은 데이터가 DB와 연관되는 경우 (회원가입, 게시판 글쓰기)
+
+
+
+## widget
+
+출력되는 input의 표현 형식을 바꾼다.
+
+방법
+
+1. 새로운 widgets 변수를 생성해서 
+2. form 필드를 만들어서
+
+
+
+
+
+## View decorator
+
+Allowed HTTP methods
+
+- require_safe()
+  - 요청 방법이 GET일때만 함수 실행
+- require_POST()
+  - view 함수가 POST요청 method만 허용하도록 하는 데코레이터
+- 405 Method Not Allowed
+  - 요청 방법이 서버에 전달되었으나 사용 불가능 상태
+- require_http_methods()
+  - view 함수가 특별한 요청 method만 허용하도록 하는 데코레이터
+  - `@require_http_methods[(['GET', 'POST'])]` 처럼 사용
+
+
+
+
+
+# ㅇㅇ
+
+django에서 bootstrap 사용
+
+- bootstrap 공식문서 가서 찾음 (ex. form-class)
+- django bootstrap 5 가서 공식 문서 따라 설치
+  1. `pip install django-bootstrap-v5`
+  2. setting.py 가서 INSTALLED_APPS 에 `bootstrap5` 추가
