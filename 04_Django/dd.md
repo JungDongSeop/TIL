@@ -583,3 +583,276 @@ django에서 bootstrap 사용
 - django bootstrap 5 가서 공식 문서 따라 설치
   1. `pip install django-bootstrap-v5`
   2. setting.py 가서 INSTALLED_APPS 에 `bootstrap5` 추가
+
+
+
+# 로그인 시스템
+
+django authentication system
+
+- 인증 : 신원 확인, 사용자가 누구인지 확인
+- 권한 : 권한 부여, 사용자가 수행할 작업 결정
+
+사전 준비
+
+1. accounts 앱 생성 및 등록
+2. url 분리 및 매핑 (app_name 설정 + 프로젝트 urls.py에서 앱 연결)
+
+
+
+## 개요
+
+- custom user model로 대체 (CRUD 과정의 일종이라 생각)
+  - 기본 User 모델과 동일하게 작동하면서도 나중에 맞춤 설정할 수 있기 때문
+
+- 기본 user modle을 custom user model로 대체하는 이유?
+  - 기본적 인증 시스템과 여러 필드가 포함되어 있어서
+- 일부 프로젝트에서는 django의 built-in user model의 기본 인증 요구사항이 적절하지 않을 수 있음(ex. email을 실벽자로 입력받는 경우)
+  - => 사용할 user model을 결정하는 `AUTH_USER_MODEL` 설정 값 사용 
+
+AUTH_USER_MODEL
+
+- 프로젝트에서 user를 나타낼 때 사용
+- 마이그레이션 한 후 변경 불가능
+- 기본값 (settings.py) : `AUTH_USER_MODEL = 'auth.User'`
+
+Custom User Model 대체하기
+
+- 공식문서 djangoproject.com에서 substitution a cousom user model 검색
+
+1. modles.py 에 AbstractUser를 상속받는 User 클래스 작성
+2. settings.py에서 AUTH_USER_MODEL 변경 (`'accounts.User'` 로)
+3. admin.py 에 커스텀 user 모델 등록
+
+AbstractUser
+
+- 관리자 권한과 함계 완전한 기능을 가지고 있는 User model을 구현하는 추상 기본클래스
+
+- Abstract base classes (추상 기본 클래스)
+
+  - 몇 가지 공통 정보를 여러 다른 모델에 넣을 때 사용하는 클래스
+
+    DB 테이블을 만드는데 사용되지 않으며, 대신 다른 모델의 기본 클래스로 사용되는 겨웅 해당 필드가 하위 클래스의 필드에 추가됨
+
+DB 초기화
+
+1. migrations 파일 삭제 (폴더는 x, 번호 0001 붙은것들ㅁ나 삭제)
+2. db.sqlite3 삭제
+3. migrations 진행 (makemigrations, migrate)
+
+
+
+## HTTP Cookies
+
+### HTTP
+
+- hypertext Transfer Protocol
+
+- html 문서와 같은 리소스들을 가져올 수 있도록 하는 규약
+
+- 구성
+
+  - 요청 : 클라이언트에 의해 전송되는 메시지
+  - 응답 : 서버에서 응답으로 전송되는 메시지
+
+- 특징
+
+  - 비 연결 지향
+
+    - 서버는 응답에 대한 요청을 보낸 후 연결을 끊음
+
+  - 무상태
+
+    - 연결을 끊는 순간 연결이 끊기며, 상태 정보가 전달되지 않음
+
+      (로그인한 상태에서 다른 화면으로 가면 로그인이 끊겨야함. 그런데 안끊김)
+
+      왜? 쿠키와 세션을 사용
+
+### 쿠키
+
+- HTTP 쿠키는 상태가 있는 세션을 만들도록 해 줌 (놀이공원의 입장 팔찌)
+- 개념
+  - 서버가 사용자에게 전송하는 작은 데이터 조각
+  - 사용자가 방문할 경우, 사용자의 컴퓨터에 설치되는 작은 기록 정보 파일
+    - key-value의 데이터 형식으로 저장
+    - 저장해 놓았다가, 동일한 서버에 재요청 시 저장된 쿠키를 함께 전송
+  - 쿠키는  두 요청이 동일한 브라우저에서 들어왔는지 아닌지를 판단할 때 주로 사용됨
+    - 이를 이용해 사용자의 로그인 상태를 유지할 수 있음 (상태가 없는 HTTP 프로토콜에서 상태 정보를 기억시켜주기 때문)
+- 사용 목적
+  - 세션 관리
+    - 로그인, 아이디 자동완성, 공지 하루 안 보기, 팝업 체크, 장바구니 등의 정보 관리
+  - 개인화
+    - 사용자 선호, 테마 등의 설정
+  - 트래킹
+    - 사용자 행동을 기록 및 분석
+
+세션
+
+- 사이트와 특정 브라우저 사이의 상태(state)를 유지시키는 것 (놀이공원의 팔찌 모양(id)에 따른 처리)
+- 서버에 저장, 브라우저 종료 시 삭제
+- 클라이언트가 서버에 접속하면 서버가 특정 sesson id를 발급하고, 브라우저는 이를 쿠키에 저장
+- 클라이언트가 다시 접속하면 요처오가 함께 쿠키를 전달, 로그인 상태를 처리
+- sesson id는 세션을 구분하기 위해 필요함, 쿠키에는 session id 만 저장
+
+쿠키 lifetime
+
+- session cookie : 현재 세션이 종료되면 삭제됨
+- persistent cookies : Expires 속성에 지정된 날짜 혹은 Max_Age 속성에 지정된 기간 뒤에 제거
+
+Session in Django
+
+- session 정보는 DB의 django_session 테이블에 저장
+
+
+
+### Authentication in Web requests
+
+Django가 제공하는 인증 관련 built-in forms 익히기
+
+(djangoproject.com의 공식 문서 참조)
+
+#### 로그인
+
+- Session을 Create하는 과정 (로그인 시 쿠키(session id 저장)를 제공하고, 서버에 세션 저장)
+
+- AuthenticationForm
+
+  - 로그인을 위한 built-in form
+  - 기본적으로 username과 password를 받아 유ㅎ한지 검증
+  - 제작
+    1. accounts의 urls.py에 경로 설정
+    2. views.py에 `from django.contrib.auth.forms import AuthenticationForm` 받아서 사용
+
+- Login (앱의 views.py에서 함수 작성)
+
+  - login()
+    - login(request, user, backend=None)
+    - 인증된 사용자를 로그인 시키는 로직으로 view 함수에서 사용됨
+    - 현재 세션에 연결하려는 인증 된 사용자가 있는 경우 사용
+  - get_user()
+    - AuthenticationForm 의 인스턴스 메서드
+    - 유효성 검사를 통과했을 경우 로그인 한 사용자 객체를 반환
+
+  - 현재 로그인 되어있는 유저 정보 출력하기
+
+    - base.html 에서 `{{ user }}` 입력하면 눈치껏 출력해줌
+
+      (settings.py의 context processors 설정 값 때문)
+
+      (템플릿이 렌더링 될 때 호출 가능한 컨텍스트 데이터 목록, 작성된 컨텍스트 데이터는 기본적으로 템플릿에서 사용 가능한 변수로 포함됨)
+
+      (즉, django에서 자주 사용하는 데이터 목록을 미리 템플릿에 로드 해 둔 것)
+
+- Logout
+  - session을 delete하는 과정
+  - 사용자가 로그인하지 않은 경우 오류를 발생시키지 않음
+  - 다음 일을 처리
+    1. 현재 요청에 대한 session data를 DB에서 삭제
+    2. 클라이언트의 쿠키에서도 session id를 삭제
+
+## Authentication with User
+
+User Object와 User CRUD에 대한 이해 (회원 가입, 탈퇴, 회원정보 수정, 비밀번호 변경)
+
+회원 가입
+
+- User을 Create 하는 것
+
+- UserCreationForm  built-in form 사용
+
+  - 주어진 username과 password로 권한이 없는 새 user를 생성하는 ModelForm
+  - 3개의 필드를 가짐 (username, password1, password2)
+
+- UserCreationForm 클래스 사용 시, 내부 클래스 Meta에는 model = User 상태임
+
+  그런데 우리는 이 값을 article 로 바꿨으니, UserCreationForm 클래스를 상속받아서 model 변수의 값을 바꿔야함 (안그러면 오류 남)
+
+  새로운 파일(forms.py)를 만들고, 위 클래스를 상속받은 `CustomUserCreationForm` 클래스 만들기
+
+
+
+## Custom user & Built-in auth forms
+
+사용자 정보를 수정
+
+커스텀 유저 모델을 사용하려면 다시 작성하거나 확장해야 하는 forms	
+
+- `UserCreationForm` : 회원가입
+
+- `UserChangeForm` : 정보 수정
+
+- 두 form 모두 class Meta: model = User가 등록된 form이기 때문에, 반드시 커스텀(확장)해야 함
+
+  (위 클래스 상속받아서 model = get_user_model() 처리)
+
+get_user_model()
+
+- 현재 프로젝트에서 활성화된 사용자 모델을 반환
+- 직접 참조하는 대신 get_user_model() 사용하기를 매우 권장
+
+
+
+
+
+### 회원 탈퇴
+
+views.py 함수 작성 시, request.user에 유저 정보 저장
+
+`request.user.delete()`
+
+
+
+### 회원정보 수정
+
+UserChangeForm
+
+- 사용자의 정보 및 권한을 변경하기 위해 admin 인터페이스에서 사용되는 ModelForm
+- CustomUserChangeForm으로 변경해서 사용
+- 매우 많은 권한을 변경할 수 있으니, CustomUserChangeForm에서 출력할 fields를 재정의해야 함 (forms.py에서)
+
+
+
+### 비밀번호 수정
+
+PasswordChangeForm 사용
+
+- 이전 비밀번호를 입력하여 변경할 수 있도록 함
+- 이전 비밀번호를 입력하지 않고 비밀번호를 설정할 수 있는 SetPasswordForm을 상속받는 서브클래스
+
+암호 변경 시 세션이 무효화됨 (기존 세션과의 회원 정보가 일치하지 않아 로그아웃 됨)
+
+- update_session_auth_hash() 메서드 사용
+  - 현재 요청과 새 session data가 파생될 업데이트 된 사용자 객체를 가져오고, session data를 적절하게 업데이트해줌
+  - 암호가 변경되어도 로그아웃 되지 않도록 새로운 password의 session data로 session을 업데이트
+
+
+
+## Limiting access to logged-in users
+
+로그인한 사람에게는 로그인 버튼 안보이게, 로그인 안한 사람에게도 로그아웃 버튼 안보이게
+
+- 로그인 사용자에 대한 접근 제한하기
+
+- 로그인 사용자에 대해 접근을 제한하기
+
+1. The raw way
+
+   - is_authenticated
+
+     - User model의 속성 중 하나
+
+     - 사용자가 인증 되었는지 여부를 알 수 있는 방법
+
+     - 모든 User 인스턴스에 대해 항상 True인 읽기 전용 속성
+
+     - AnonymousUser은 항상 False
+
+     - `request.user.is_authenticated`
+     - 로그인 되었는지만 판단(운영자, 관리자, 사용자 등 구분 x)
+
+2. the login_required decorator
+
+   - `@login_required`
+   - 이 때, decorator가 2개면 원하는대로 작동하지 않을 수도 있다?
+   - delete는 POST method만 허용하니, `@login_required`를 사용하기보다는 함수 내부에서 is_authenticated 속성값을 이용해 if 조건문으로 처리
