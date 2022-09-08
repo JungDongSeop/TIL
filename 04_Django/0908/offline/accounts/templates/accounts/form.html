@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% comment %} login.html 과 signup.html 합치기 {% endcomment %}
+{% block content %}
+
+  {% if request.resolver_match.url_name == "login" %}
+    {% comment %} login 요청이 왔을 때 {% endcomment %}
+    <h1>Login Page</h1>
+    {% comment %} signup 요청이 왔을 때 {% endcomment %}
+  {% elif request.resolver_match.url_name == "signup" %}
+    <h1>Signup Page</h1>
+  {% endif %}
+
+
+  {% comment %} action을 비우면, 현재 내 위치(url)로 정보가 전송딤 {% endcomment %}
+  <form action="" method='POST'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit">
+  </form>
+  
+  
+  {% comment %} 
+  <form action="{% url 'accounts:login' %}" method="POST">
+
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit">
+    
+  </form> 
+  {% endcomment %}
+{% endblock content %}
