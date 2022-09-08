@@ -1,6 +1,5 @@
-## TemplateDoesNotExist
-
-- settings.py에 TEMPLATES 리스트 안 'DIRS'를 [BASE_DIR / 'templates']로 수정
-- settings.py에 INSTALLED_APPS 에 앱 이름(articles) 추가
-- templates 폴더 이름 추가
-- 경로 확인
+- 시작할 때 이왕이면 admin 계정 만들기
+- render 안에는 "articles:index" 이런 식으로 표현 X
+- form 태그 안에 textarea 사용할 때는, <input> 사용하지 않고 바로 <textarea> 사용
+- 에러 뜨면 장고의 구조 (url에서 요청 받아서, views 갔다가, model 가서 DB에 접근하고, ...) 생각해보기
+- 
