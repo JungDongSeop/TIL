@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>User List Page</h1>
+  {% for user in users %}
+    <p>{{ user.pk }}</p>
+    <p>{{ user.username }}</p>
+    <p>{{ user.password }}</p>
+    <hr>
+  {% empty %}
+    <p>아직 가입한 유저가 없습니다.</p>
+  {% endfor %}
+
+{% endblock content %}

@@ -458,15 +458,17 @@ class Article(models.Model):
 
 1. 렌더링을 위한 데이터 준비 및 재구성
 2. 데이터에 대한 HTML forms 생성
-3. 클라이언트로부터 바등ㄴ 데이터 수신 및 처리
+3. 클라이언트로부터 받은 데이터 수신 및 처리
 
-## Form Class
+## Form Class 선언하기
+
+- Django form 관리 시스템의 핵심
 
 선언
 
 - model class를 선언하는 것과 비슷
 
-- 상속을 통해 선언
+- 앱 폴더에 forms.py 생성, 상속을 통해 선언 
 
 - html에 `{{ form }}`을 입력해 사용
   - as_p() : 각 필드가 <p> 태그로 감싸져서 렌더링
