@@ -2,8 +2,7 @@
 - render 안에는 "articles:index" 이런 식으로 표현 X
 - form 태그 안에 textarea 사용할 때는, <input> 사용하지 않고 바로 <textarea> 사용
 - 에러 뜨면 장고의 구조 (url에서 요청 받아서, views 갔다가, model 가서 DB에 접근하고, ...) 생각해보기
-- 
-=======
+- =======
 ## TemplateDoesNotExist
 
 - settings.py에 TEMPLATES 리스트 안 'DIRS'를 [BASE_DIR / 'templates']로 수정
