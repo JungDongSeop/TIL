@@ -285,3 +285,48 @@ def DFS(start):
 - empty: 덱이 비어있으면 1을, 아니면 0을 출력한다.
 - front: 덱의 가장 앞에 있는 정수를 출력한다. 만약 덱에 들어있는 정수가 없는 경우에는 -1을 출력한다.
 - back: 덱의 가장 뒤에 있는 정수를 출력한다. 만약 덱에 들어있는 정수가 없는 경우에는 -1을 출력한다.
+
+
+
+
+
+## 다익스트라
+
+- 큐를 사용, 큐는 우선순위 힙을 사용해 현재까지 이동거리가 가장 작은 값을 맨 앞에 오도록 작성 (최소힙)
+
+  이 덕분에 복잡도 $O(M)$ 이 아니라 $O(\log M)$이 가능
+
+- 다음에 갈 점 next에 대해서, 여태까지 조사한 거리보다 더 빠른 이동이 가능하면, 조사
+
+나무위키 다익스트라 참조
+
+```python
+def dijkstra(start, goal):
+    distance = [INF] * (N+1)        # 해당 노드까지의 거리 리스트
+    heap = []                       # 우선순위 큐
+
+    heappush(heap, (0, start))      # 튜플의 크기 비교는 앞에 값부터 비교. 이를 이용해 원소 (거리, 노드)를 힙에 추가
+                                    # 우선순위 큐를 사용해야, 최소값을 구하는 복잡도가 O(log M)이 된다. 최종 복잡도는 O(M log M)
+                                    # 그냥 최소값을 구하면 복잡도가 O(M), 결국 최종 복잡도는 O(M^2)
+    distance[start] = 0
+
+    # 방문한 도시가 있는 동안
+    while heap:
+        dist, now = heappop(heap)       # 이동 거리가 최소인 노드를 꺼냄
+        if distance[now] < dist:            # 그 노드보다 효율적인 움직임이 있으면, 넘어감
+            continue
+            
+        # 갈 수 있는 길들 heap에 추가 (자동 정렬 됨),
+        for next, long in adjList[now]:
+            cost = dist + long
+            # 조사한 거리보다 더 빠른 이동이 가능하면
+            if distance[next] > cost:
+                distance[next] = cost
+                heappush(heap, (cost, next))
+```
+
+
+
+
+
+dd
