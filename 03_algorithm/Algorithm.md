@@ -327,6 +327,39 @@ def dijkstra(start, goal):
 
 
 
+## 분리 집합 알고리즘
 
+- 트리를 사용
+- 서로 분리된 단순 그래프에서 임의의 노드 및 간선이 추가된 경우, 노드 A와 B가 연결된 상태인지 확인하기 위해 DFS, BFS를 사용하는 건 너무 비효율적이다.
+- 분리된 단순그래프를 트리 형태로 구현. 만약 트리 T와 T'을 연결하는 간선이 추가된 경우 둘의 부모 노드를 연결하는 간선 하나만 그린다.
+- 그러면 노드 A와 B가 연결된 형태인지는 트리의 높이 만큼의 복잡도만 사용해서 계산 가능
+
+백준 16566 카드게임
+
+```python
+# tree에 적절한 부모 노드를 찾는 함수
+def find(x):
+    if x == tree[x]:
+        return x
+
+    v = find(tree[x])
+    tree[x] = v
+    return v
+
+# 두 개의 분리노드를 연결하는 함수 (a의 부모노드를 b로)
+def union(a, b):
+    if b >= M:
+        return 
+    a = find(a)
+    b = find(b)
+
+    tree[a] = b
+
+idx = find(idx)
+print(all[idx])
+union(idx, idx+1)
+
+# 문제는 반복문으로도 풀었음
+```
 
 dd
