@@ -298,6 +298,8 @@ def DFS(start):
 
 - 다음에 갈 점 next에 대해서, 여태까지 조사한 거리보다 더 빠른 이동이 가능하면, 조사
 
+- 음의 가중치는 조사 불가. 음의 가중치가 있다면 벨만-포드 사용
+
 나무위키 다익스트라 참조
 
 ```python
@@ -361,5 +363,39 @@ union(idx, idx+1)
 
 # 문제는 반복문으로도 풀었음
 ```
+
+
+
+## 벨만 포드 알고리즘
+
+- 그래프의 최단 거리를 찾는 알고리즘
+- 모든 V에 대해서, 모든 E를 순회 
+- 어떤 간선 (s, e, d)에서 distance[e]를 교체할 수 있을 정도로 이득인 경우가 있으면(더 짧은 이동 방법), distance[e] 수정
+- 다익스트라보다 느리지만, 음의 가중치도 계산할 수 있다. (모든 V에 대해 모든 E를 조사하니)
+
+백준 1865 웜홀
+
+```python
+# 벨만-포드 알고리즘
+def bellman_ford(start):
+    distance = [INF] * (V+1)
+    distance[start] = 0
+
+    # 모든 노드에 대해
+    # (마지막 노드는 빼도 됨. 어차피 V와 연결된 나머지 점들에서
+    #  V와 연관된 간선들을 전부 조사했으니)
+    for v in range(1, V+1):
+        # 모든 간선에 대해 조사
+        for s, e, d in edges:
+            cost = distance[s] + d
+            # 만약 더 짧은 길이 존재하면, 길이 교체
+            # if distance[s] != INF and distance[e] > cost:     # 처음에 이렇게 하니, 1이 도달하지 못하는 음의 사이클을 무시
+            if distance[e] > cost:
+                distance[e] = cost
+            	if v == V:				# 이 경우 음의 사이클이 존재
+                    return False
+```
+
+
 
 dd
