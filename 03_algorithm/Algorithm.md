@@ -85,6 +85,27 @@ dj = [-1,1,0,0]
 
 해서 각 i, j에 i+di, j+dj
 
+#### 순열
+
+TSP (Traveling Salesman Problem) 등에 적용 가능
+
+- 최소 변경을 통한 방법 
+
+  - 각 순열들은 이전의 상태에서 요소 2개만을 바꿔 생성 가능
+
+  - ```python
+    perm(n, k):
+        if n == k:
+            print arr
+        else:
+            for i in range(k, N):
+                arr[i], arr[j] = arr[j], arr[i]
+                perm(n, k+1)
+                arr[i], arr[j] = arr[j], arr[i]
+    ```
+
+  - d
+
 #### 부분집합 전부 출력
 
 ```python

@@ -27,12 +27,6 @@ def DFS_recur(start):
             DFS(next)
 
 
-
-
-
-
-
-
 V, E = map(int, input().split())
 data = list(map(int, input().split()))
 print(V, E)
