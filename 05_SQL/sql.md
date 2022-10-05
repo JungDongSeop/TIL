@@ -50,7 +50,7 @@ RDBMS
    - INSERT, SELECT, UPDATE, DELETE
 3. DCL (데이터 제어 언어)
 
-
+​	DDL은 테이블 관련, DML은 데이터 관련
 
 문법
 

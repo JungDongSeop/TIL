@@ -507,7 +507,89 @@ def bellman_ford(start):
       return parent[x]
   ```
 
+
+
+
+## 위상 정렬
+
+순서가 정해져있는 작업을 차례로 수행할 때, 그 순서를 결정하는 알고리즘
+
+ex) 대학 수강신청 시 선수과목 등
+
+순서
+
+1. 큐를 사용, 진입노드가 0인 노드들 전부 큐에 삽입
+
+2. 이후 큐에서 노드를 하나 pop, 그 노드를 now 라 하자.
+
+3. 인접 리스트에서 다음으로 갈 수 있는 노드들 순회, 그 노드들 중 하나를 next라 하자.
+
+4. next의 진입 노드를 1 감소 (이미 고려한 간선은 삭제하는 효과). next를 큐에 삽입.
+
+   이후, 만약 next의 진입 노드가 0개이면 next를 큐에 삽입
+
+5. 반복
+
+백준\_1005_ACM Craft
+
+- https://developmentdiary.tistory.com/465 참조
+
+  ```
+  이렇게 하면 방향순대로 모든 경우를 순회할 수 있음..?
+  # 한 번 간 간선을 삭제하는 이유?
+  # 위상 정렬은 싸이클이 없고, 간선을 삭제해가면서 진입차수가 가장 작은 노드들을 먼저 삽입하므로
+  # 어차피 아래에서부터 테이블을 채워나가는 효과가 생긴다.
+  # 우리의 목표 건물을 맨 위라고 하면, 어차피 맨 왼쪽부터 고려하면서 타뷸레이션 하는 느낌
+  ```
+
+- 코드
+
+  ```python
+  def func():
+      global answer
   
+      q = deque()
+      for i in range(1, N+1):     # 진입차수가 0인 노드들 큐에 넣음
+          if not degree[i]:
+              q.append(i)
+              dp[i] += times[i]
+  
+      # 큐가 있는 동안 반복
+      while q:
+          now = q.popleft()
+  
+          for next in adjList[now]:
+              degree[next] -= 1                               # 진입 차수 줄이고
+              dp[next] = max(dp[next], dp[now] + times[next])  # 작업 시간 갱신
+              if degree[next] == 0:                           # 진입차수 0인 노드 삽입
+                  q.append(next)
+  
+  
+  T = int(sys.stdin.readline())
+  for tc in range(T):
+      N, K = map(int, sys.stdin.readline().split())                # 건물 개수, 건물 순서 규칙 개수
+      times = [0] + list(map(int, sys.stdin.readline().split()))    # 건물 별 짓는 시간
+      arr = [list(map(int, sys.stdin.readline().split())) for _ in range(K)]
+      W = int(sys.stdin.readline())                                # 목표 건물
+  
+      parent = list(range(N+1))           # 분리 집합
+      adjList = [[] for _ in range(N+1)]  # 인접 리스트
+      degree = [0] * (N+1)                # 진입 차수
+      dp = [0] * (N+1)                    # 작업 시간 타뷸레이션
+      for a, b in arr:
+          adjList[a].append(b)
+          degree[b] += 1
+  
+      # 정답 구하기
+      func()
+      print(dp[W])
+  ```
+
+  
+
+
+
+
 
 ## 크누스 최적화?
 
