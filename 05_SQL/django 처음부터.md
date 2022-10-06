@@ -393,7 +393,7 @@ comment 를 create
       <hr>
   ```
 
-- 
+- 이 때 `article.comment_set.all` 은 `context의 변수명 . 클래스 이름을 소문자로 . all`
 
 views.py  의 detail 함수에서 처리하기
 
