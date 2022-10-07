@@ -8,7 +8,7 @@
 
 터미널 켜서 
 
-- `python -m venv`
+- `python -m venv venv`
 
 - 가상환경 활성화  `source venv/Scripts/activate`
 
@@ -76,7 +76,7 @@
 
 # 모델 만들기
 
-장고의 models.Model 을 상속받아서, CRUD 구현 (테이블 만들기)
+장고의 models.Model 을 상속받아서, CRUD 구현 (테이블 만들기) (DB의 청사진)
 
 - articles/models.py 에 Article 클래스 만들기
 
@@ -133,6 +133,22 @@ views.py 에서 `from .models import Article` 불러오기. 이후 Article 클�
 urls.py 에 create 로 가는 길 만들고, views.py 에 create 함수 만들고, create.html 에 페이지 만들기
 
 - forms.py  만들고, 그 안에 django 의 ModelForm 상속받아서 우리가 원하는 ArticleForm 클래스 만들기
+
+- ```python
+  from django import forms
+  from .models import Article
+  
+  class ArticleForm(forms.ModelForm):
+  
+      # ArticleForm class 가 어떻게 정의되는지
+      # 그 정보는 Meta class 에 넣는다
+      class Meta:
+          model = Article
+          # fields = '__all__'
+          exclude = ('user', )
+  ```
+
+- 
 
 - 이후 class Meta 에 우리가 직접 만든 Article 클래스를 입력해서 받아올 스키마? 를 선언
 
