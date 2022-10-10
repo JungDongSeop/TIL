@@ -457,11 +457,36 @@ def bellman_ford(start):
 
 
 
+## 이진 탐색
+
+```python
+# 이진탐색 하는 함수. 만약 정확한 값이 없으면, 바로 오른쪽 인덱스를 출력
+def bin_search(l, r, target, arr):
+    if l > r:
+        return l        # 없으면 a[i]<target<a[i+1] 일 때 i+1 출력
+    mid = (l + r) // 2
+
+    if target == arr[mid]:
+        return mid
+    if target > arr[mid]:       # 오른쪽에 있음
+        l = mid + 1
+    else:
+        r = mid - 1
+
+    return bin_search(l, r, target)
+```
+
+
+
+
+
 ## 투 포인터
 
 1차원 배열이 있을 때, 이 배열에서 각자 다른 원소를 가리키는 2개의 포인터를 조작하는 알고리즘
 
 백준\_2467_용액 (내 풀이는 투포인터 안씀)
+
+
 
 ## LCS
 
@@ -587,7 +612,61 @@ ex) 대학 수강신청 시 선수과목 등
 
   
 
+## 0-1 배낭 문제
 
+조합 최적화 문제. DP와 백트래킹을 활용해 해결. 조금 약한 부분임
+
+백준\_12865_평범한 배낭
+
+- 타뷸레이션
+
+```python
+# 타뷸레이션으로 해결
+N, K = map(int, input().split())
+
+# 정답을 저장할 리스트
+# answer[a][b] 는 물건 a개가 주어질 때, 정확히 무게 b를 갖는 조합의 최고 가치
+answer = [[0] * (K+1) for _ in range(N+1)]      
+
+# answer 채우기
+for n in range(1, N+1):
+    weight, value = map(int, input().split())
+    # 모든 무게에 대하여
+    for k in range(1, K+1):
+        # 무게 k가 weight를 담은 상태일 수 있을 때
+        if k >= weight:
+            answer[n][k] = max(answer[n-1][k], value + answer[n-1][k-weight])
+        # 아닐 때 (그냥 안 담음)
+        else:
+            answer[n][k] = answer[n-1][k]
+
+print(answer[N][K])
+```
+
+백준\_7579_보석 가게
+
+- 재귀함수 활용한 DP (시간초과)
+
+- ```python
+  def knapsack(result, memory, idx):
+      global answer
+      if result >= answer:
+          return 10001
+      if memory >= M:     # 메모리 충분히 확보
+          answer = result
+          return result
+      if idx == N:        # 메모리 확보 못했으면 중지
+          return 10001
+  
+      else:
+          # idx 번째  고르는 경우
+          left = knapsack(result + cost[idx], memory + memories[idx], idx+1)
+          # idx 번째 안고르는 경우
+          right = knapsack(result, memory, idx+1)
+          return min(left, right)
+  ```
+
+- 
 
 
 
