@@ -25,7 +25,7 @@
 장고에게 명령
 
 - 프로젝트 생성`django-admin startproject crud .`
-- 이후 서버 켜서 settings.py 106번째 줄 ko-kr , 언어는 Asia/Seoul 로 바꾸기
+- 이후 서버 켜서 settings.py 106번째 줄 ko-kr , 시간 Asia/Seoul 로 바꾸기
 
 
 

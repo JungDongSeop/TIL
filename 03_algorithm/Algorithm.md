@@ -488,13 +488,25 @@ def bin_search(l, r, target, arr):
 
 
 
-## LCS
+## LIS
 
 최장 공통 부분 수열
 
 그래프를 채워나가는 DP 방식으로 해결 가능. $O(n^2)$
 
-이후 시간복잡도를 줄이는 방식 찾으면 추가 기록
+$O(n\log n)$으로 가능
+
+- `largest = []` 리스트를 만든 뒤, 수열을 순회하면서 숫자 a에 대해 이분탐색으로 가장 큰 숫자가 나오면 append, 그게 아니면 a 보다 큰 수 중 제일 작은 수를 a로 교체. 
+
+  이 때 `len(largest)`가 바로 LCS의 길이
+
+- 이 방식으로는 LIS의 길이만 구하고, LIS 자체는 구할 수 없다. 이를 위해 `record_idx = [0] * (N)` 만든 뒤, i번째 값이 largest에 삽입 될 때 largest의 해당 인덱스를 record_idx에 저장. 
+
+  이러면 나중에 record_idx에 대해 `for i in range(N-1, -1, -1)`, record_idx 가 1씩 작아지는 i들을 찾아 따로 저장하면 된다.
+
+-  코드 : 백준\_14003_가장 긴 증가하는 부분 수열 5
+
+- 이분탐색은 `from bisect import bisect_left, bisect_right`
 
 
 
