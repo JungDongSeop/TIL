@@ -275,6 +275,57 @@ variable routing 기능 사용, 게시글에 따른 상세 페이지 만들기
 
 
 
+### 게시글 수정
+
+- urls.py
+
+- ```python
+      path('<int:article_pk>/update/', views.update, name='update'),
+  ```
+
+- views.py
+
+- ```python
+  def update(request, article_pk):
+      article = Article.objects.get(pk=article_pk)
+  
+      if request.method == 'POST':
+          form = ArticleForm(request.POST, instance=article)
+          if form.is_valid():
+              user = form.save()
+              return redirect('articles:detail', article.pk)
+      
+      else:
+          form = ArticleForm(instance=article)
+      
+      context = {
+          'form': form,
+          'article': article
+      }
+      return render(request, 'articles/update.html', context)
+  ```
+
+  5번째 줄에 `instance=article` 안넣으면, 수정이 아니라 완전 새로운 form 새로 생성
+
+  instance를 선언해 줘서, 테이블의 바꿀 행을 명확히 설정
+
+- update.html
+
+- ```html
+  {% block content %}
+    <h1>UPDATE</h1>
+  
+    <form action="{% url 'articles:update' article.pk %}" method='POST'>
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" value='수정'>
+    </form>
+  
+  {% endblock content %}
+  ```
+
+- 
+
 
 
 # 게시글에 대해 댓글을 저장
@@ -420,7 +471,7 @@ views.py  의 detail 함수에서 처리하기
 - accounts 앱 생성 `$ python manage.py startapp accounts`
 - crud 폴더의 settings.py, ursl.py 에 앱 등록
 
-이후 models.py 에 User 상속받아서 사용
+이후 models.py 에 User 상속받아서 새로운 User 모델사용
 
 ```python
 from django.db import models
@@ -454,8 +505,13 @@ class User(AbstractUser):
 
   UserCreationForm 상속받아서 내멋대로 바꾸기
 
+<<<<<<< HEAD
   이 때 `get_user_model` 이 바로 accounts - models.py 의 User 클래스
 
+=======
+  여기서의 get_user_model() 이 바로 models.py의 User 클래스
+  
+>>>>>>> bc962c08a2a2ba91ae0b66c203fd9a4486c17387
 - 이후 views.py 에
 
 - ``` python
@@ -548,6 +604,34 @@ def login(request):
           <a href="{% url 'accounts:signup' %}">[SIGN UP]</a>
       {% endif %}
   ```
+
+### 로그인 기능 구현
+
+AuthenticationForm : 유저가 존재하는지를 검증하는 Django 내장 모델 폼. 사용자가 로그인 폼에 작성한 정보가 유효한지를 검증함
+
+CustomUserCreationForm : `django.contrib.auth.form` 내 구현되어있는 회원가입 모델 폼으로 import
+
+
+
+```python
+def login(request):
+
+    if request.method == 'POST':
+        form = AuthenticationForm(request, request.POST)
+        if form.is_valid():
+            auth_login(request, form.get_user())
+            return redirect('articles:index')
+    else:
+        form = AuthenticationForm()
+    context = {
+        'form': form
+    }
+    return render(request, 'accounts/login.html', context)
+```
+
+
+
+
 
 ### 로그아웃
 
@@ -658,6 +742,25 @@ def login(request):
 
     이후 추가된 내용은, 로그인 정보 입력하고 submit 했을 때 실제로 로그인되는 과정 구현
 
+#### 비밀번호 변경
+
+ PasswordChangeForm 임포트 받기
+
+- urls.py
+
+- ```python
+      path('password/', views.change_password, name='change_password'),
+  ```
+
+- views.py
+
+- ```python
+  ```
+
+- 
+
+
+
 
 
 # 로그인 된 유저가 댓글 작성
@@ -734,6 +837,8 @@ def login(request):
       return render(request, 'articles/create.html', context)
   ```
 
+  commit=False 의미 : 
+  
 - index.html 에
 
 - ```html
@@ -827,3 +932,8 @@ def login(request):
     ```
 
   - 
+
+
+
+# 팔로잉 기능 구현
+
