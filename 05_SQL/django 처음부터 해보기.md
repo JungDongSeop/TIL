@@ -422,9 +422,21 @@ views.py  의 detail 함수에서 처리하기
 
 이후 models.py 에 User 상속받아서 사용
 
-- settings.py 맨 마지막 줄에 `AUTH_USER_MODEL = 'accounts.User'` 써서 덮어씌우기
+```python
+from django.db import models
+from django.contrib.auth.models import AbstractUser
 
+# Create your models here.
+class User(AbstractUser):
+    pass
+```
+
+
+
+- settings.py 맨 마지막 줄에 `AUTH_USER_MODEL = 'accounts.User'` 써서 덮어씌우기
 - 이러면 앞으로 accounts 앱의 User 를 찾아서 사용하게 됨
+
+### 회원가입 구현
 
 - 이후 forms.py 에 
 
@@ -441,6 +453,8 @@ views.py  의 detail 함수에서 처리하기
   ```
 
   UserCreationForm 상속받아서 내멋대로 바꾸기
+
+  이 때 `get_user_model` 이 바로 accounts - models.py 의 User 클래스
 
 - 이후 views.py 에
 
@@ -463,6 +477,34 @@ views.py  의 detail 함수에서 처리하기
       
       return render(request, 'accounts/signup.html', context)
   ```
+
+### 로그인 구현
+
+views.py
+
+```python
+def login(request):
+    if request.user.is_authenticated:
+        return redirect('articles:index')
+
+    if request.method == 'POST':
+        form = AuthenticationForm(request, request.POST)
+        # form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            # 로그인
+            auth_login(request, form.get_user())
+            return redirect(request.GET.get('next') or 'articles:index')
+    else:
+        form = AuthenticationForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'accounts/login.html', context)
+```
+
+이 때 `get_user` 메서드는 user_id를 인자로 받아 User 객체를 pk로 참조하여 user 객체를 반환하는 함수. 없으면 None을 반환한다.
+
+`redirect(request.GET.get('next') or 'articles:index')`는 로그인하지 않은 상태로 글 쓰기 창으로  들어간 경우, 로그인 직후 바로 로그인된 글쓰기 창으로 가도록 하는 기능. 근데 원리를 잘 모르겠다. 다음에 물어보자.
 
 ### 로그인 됐는지 확인
 
@@ -493,8 +535,10 @@ views.py  의 detail 함수에서 처리하기
       return render(request, 'accounts/signup.html', context)
   ```
 
-  
+  auth_login(request, user) 은 받은 정보 request와, User 객체(`get_user_model()`)의 user 객체를 반환.
 
+  여기서는 user = form.save() 에서 저장된 user_id 를 바탕으로 User 객체의 pk를 참조, user 객체를 반환한다.
+  
 - base.html 에 로그인된 경우 아이디 출력, 아니면 signup 하이퍼링크 출력
 
 - ```python
