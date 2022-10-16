@@ -510,7 +510,7 @@ class User(AbstractUser):
 
 =======
   여기서의 get_user_model() 이 바로 models.py의 User 클래스
-  
+
 >>>>>>> bc962c08a2a2ba91ae0b66c203fd9a4486c17387
 - 이후 views.py 에
 
@@ -837,7 +837,7 @@ def login(request):
       return render(request, 'articles/create.html', context)
   ```
 
-  commit=False 의미 : 
+  commit=False 의미 : DB에 바로 저장 안하고, 이후 추가하나 뒤 저장
   
 - index.html 에
 
