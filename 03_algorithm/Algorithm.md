@@ -510,6 +510,33 @@ $O(n\log n)$으로 가능
 
 
 
+## LCS
+
+최소 공통 부분 수열
+
+LIS 를 이차원 리스트 DP로 $O(MN)$으로 해결한 것처럼 해결
+
+백준\_9251_LCS
+
+```python
+A, B = input(), input()
+graph = [[0] * len(B) for _ in range(len(A))]
+
+# A, B를 행, 열로 갖는 그래프 만들기
+# 만약 A[a], B[b]가 겹치면, graph[a][b] == graph[a-1][b-1] + 1
+# 만약 안겹치면, 바로 위 or 왼쪽 중 큰 값
+for a in range(len(A)):
+    for b in range(len(B)):
+        if A[a] == B[b]:
+            graph[a][b] = (graph[a-1][b-1] if a-1 >= 0 and b-1 >= 0 else 0) + 1
+        else:
+            graph[a][b] = max(graph[a][b-1] if b-1 >= 0 else 0, graph[a-1][b] if a-1 >= 0 else 0)
+
+print(graph[-1][-1])
+```
+
+
+
 ## 중간에서 만나기
 
 - 큰 문제를 절반으로 나눠서 해결하는 방법
@@ -622,7 +649,119 @@ ex) 대학 수강신청 시 선수과목 등
       print(dp[W])
   ```
 
-  
+
+
+
+
+
+## 세그먼트 트리
+
+구간을 저장하기 위한 이진 트리
+
+ex) 여러 개의 데이터가 존재할 때 특정 구간의 합을 구하는 데 사용하는 자료 구조.
+
+시간 복잡도 $O(\log n)$으로 부분합을 구할 수 있다.
+
+https://velog.io/@heyoni/2042 참조
+
+
+
+1. segment_tree = [0] * (4*N) 으로 트리를 구현한다.
+
+   이 때 arr의 원소들은 리프 노드에 저장함. arr[2 * idx + 1]을 해도 인덱스 에러가 나지 않기 위해 트리의 크기를 충분히 할당
+
+2. 재귀함수를 사용하여 트리를 채운다.
+
+3. 재귀함수를 활용하여 트리에 저장된 값을 (log n) 개만 바꾼다.
+
+4. 재귀함수를 활용하여 행렬의 부분합을 구한다.
+
+트리 만들기
+
+```python
+# 세그먼트 트리를 채우는 함수
+# idx 는 segment_tree 리스트의 인덱스
+# start, end 는 그 segemnt_tree[idx] == sum(arr[start:end+1]) 이 되도록 하는 start 와 end
+def tree_fill(start, end, idx):
+    # 리프 노드 채우기
+    if start == end:
+        segment_tree[idx] = arr[start]
+        return segment_tree[idx]
+
+    # 현재 노드 채우기
+    mid = (start + end) // 2
+    segment_tree[idx] = tree_fill(start, mid, idx*2) + tree_fill(mid+1, end, idx*2+1)
+    return segment_tree[idx]
+
+arr = [0] + list(map(int, input().split())
+N = len(arr) - 1                 
+segment_tree = [0] * (4*N)
+
+# 세그먼트 트리 채우기
+tree_fill(1, N, 1)
+```
+
+
+
+트리 값 수정
+
+```python
+# 트리에서 리프 노드의 숫자가 바뀌었을 때, 트리 전체의 부분합들 수정
+# target 은 arr[target] = num 으로 수정될 때의 target (num 은 수정할 값, target 은 수정할 인덱스)
+# diff 는 num - arr[target]
+def tree_update(start, end, idx, target, diff):
+    # 트리 수정
+    segment_tree[idx] += diff
+
+    # 만약 리프 노드에 도달하면 (arr[target] 을 나타내는 노드에 도달하면)
+    if start == end:
+        return
+
+    # 재귀함수로 리프 노드를 찾아간다.
+    mid = (start + end) // 2
+    if target <= mid:
+        return tree_update(start, mid, idx*2, target, diff)
+    else:
+        return tree_update(mid+1, end, idx*2+1, target, diff)
+
+tree_update(1, N, 1, target, num - arr[target])		# 트리 수정
+arr[target] = num									# 배열 수정
+```
+
+
+
+부분합 구하기
+
+```python
+# 목표로 하는 부분합을 찾아가는 함수
+# S, E 는 우리가 sum(arr[S:E+1]) 을 목표로 할 때의 S, E
+def tree_find(start, end, idx, S, E):
+    # 만약 현재 노드가 나타내는 부분합이 arr[S:E+1] 안에 있으면, 그 값 더함
+    if S <= start and end <= E:
+        return segment_tree[idx]
+    # 만약 조사 범위를 벗어났으면, return 0
+    if E < start or end < S:
+        return 0
+
+    # 재귀함수로 더 깊이 들어감
+    mid = (start + end) // 2
+    # 왼쪽 절반, 오른쪽 절반 탐색
+    return tree_find(start, mid, idx*2, S, E) + tree_find(mid+1, end, idx*2 + 1, S, E)
+
+print(tree_find(1, N, 1, S, E))
+```
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## 0-1 배낭 문제
 
