@@ -41,6 +41,8 @@
   - 
 - 참조 타입
   - object
+  
+    
 
 
 
@@ -111,6 +113,13 @@ Spread syntax
   - 키와 속성을 담고 있는 참조 타입의 객체
   - 순서 보장
   - 배열의 길이는 array.length 형태로 접근 가능
+  - ```js
+    const arr = []
+    for (let number of numbers) {
+        arr.push(number + 10)
+    }
+    ```
+  - arr의 push는 새로운 리스트로 재할당 하는 게 아니라 기존의 리스트에서 값을 추가하는 것이라, const 사용 가능
 
 배열 메서드 심화
 
@@ -163,3 +172,8 @@ Spread syntax
 객체 관련 문법
 
 - 
+
+
+
+
+
