@@ -127,6 +127,24 @@ views.py 에서 `from .models import Article` 불러오기. 이후 Article 클�
 - 
 
 
+## 관리자 계정 만들기
+
+   `python manage.py createsuperuser` 쳐서 관리자명, 비밀번호 입력
+
+   `admin.py` 가서 아래 코드 입력 => DB를 맘대로 crud 할 수 있는 관리자 계정 생성됨
+
+   ```python
+from django.contrib import admin
+from .models import Movie
+
+# Register your models here.
+# 관리자 계정으로 Article 클래스의 자료를 수정 가능하도록
+
+# 내용도 같이 표시되도록 하는 클래스
+admin.site.register(Movie)
+   ```
+
+   
 
 # 게시글 작성 기능 구현
 
