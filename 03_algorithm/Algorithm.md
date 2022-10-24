@@ -765,6 +765,145 @@ print(tree_find(1, N, 1, S, E))
 
 
 
+## 강한 연결 요소 (SCC)
+
+방향 그래프의 SCC는 우선 정점의 최대 부분집합이며, 그 부분집합에 들어있는 서로 다른 임의의 두 정점 u, v에 대해서 u에서 v로 가는 경로와 v에서 u로 가는 경로가 모두 존재하는 경우를 말한다.
+
+백준\_2150_SCC
+
+코사라주 알고리즘
+
+1. 모든 노드에 대하여 순방향 dfs 하면서, pop 한 노드 순으로 별도의 stack 에 저장
+2. 이후 stack 의 마지막 노드부터 역방향 dfs 실시, 한 번의 dfs 에서 거친 점들은 하나의 scc 구성
+
+```python
+
+# 코사라주 알고리즘
+# https://ca.ramel.be/166?category=935131 참조
+# 순방향 dfs 를 하되, pop 한 노드 순서대로 별도의 stack 에 저장
+# 이후 stack 의 마지막 노드들부터 역방향 dfs 를 해서, 이동이 불가능해진 경우,
+# 역방향 dfs 동안 거친 노드들이 하나의 scc 를 이루게 됨
+# 그렇게 될 것 같긴 한데, 어떻게 증명할까?
+# 하나의 scc 면 역방향 dfs 동안 거친다 => 참 (증명 쉬움)
+# 역방향 dfs 거치면 하나의 scc 다 => 참 (하나의 scc 안에 역방향 dfs 를 거치지 않은 노드가 있다? 그건 scc 아님)
+#                                     (하나의 scc 를 벗어난 점에도 역방향 dfs 가 방문한다? 그럼 dfs 에서 stack 을 만들 때
+#                                      해당 점이 stack 의 마지막 노드가 될 수 없음)
+def dfs(now, visited, stack):
+    visited[now] = True
+
+    for next in adjList[now]:
+        if not visited[next]:
+            dfs(next, visited, stack)
+    # pop 되는 순서대로 stack 에 집어넣음
+    stack.append(now)
+
+
+def dfs_reverse(now, visited, stack):
+    visited[now] = True
+    stack.append(now)
+    for next in adjList_reverse[now]:
+        if not visited[next]:
+            dfs_reverse(next, visited, stack)
+
+
+V, E = map(int, input().split())
+
+adjList = [[] for _ in range(V+1)]
+adjList_reverse = [[] for _ in range(V+1)]
+for _ in range(E):
+    s, e = map(int, input().split())
+    adjList[s].append(e)
+    adjList_reverse[e].append(s)
+
+stack = []
+visited = [False] * (V+1)
+# 모든 점에 대해서 정방향 dfs 실행 (dfs 를 해서 모든 점을 stack 에 넣어야 하니)
+for i in range(1, V+1):
+    if not visited[i]:
+        dfs(i, visited, stack)
+
+visited = [False] * (V+1)   # visited 초기화
+answer = []
+
+# 스택이 빌 때까지 dfs_reverse 를 실행해서, scc 인 것이 판별나면
+# (dfs_reverse 가 막히면, 여태까지의 점들은 하나의 scc 에 속한다는 뜻이 됨)
+# 여태까지 방문한 점들을 scc 리스트에 넣음. 반복
+while stack:
+    ssc = []
+    now = stack.pop()
+    if not visited[now]:
+        dfs_reverse(now, visited, ssc)
+        answer.append(sorted(ssc))
+
+answer.sort()
+print(len(answer))
+for i in answer:
+    print(*i, -1)
+
+```
+
+
+
+타잔 알고리즘
+
+id와 low 라는 값을 이용해, 한 번의 dfs로 해결 가능한 알고리즘
+
+https://ca.ramel.be/166?category=935131 그림 참조
+
+1. dfs 를 실행해 나가면서, i 번째로 방문한 nonvisited 노드는 id = i 로 설정, low 는 기본적으로 id 와 같게 설정하되, 노드 X에서 visited node Y를 방문한 경우 (혹은 이전 노드로 되돌아가는 경우) low_X = low_Y 로 재설정 (이 경우 X, Y 는 같은 low를 가지므로, 하나의 SCC)
+
+```python
+v, e = map(int, sys.stdin.readline().split())
+graph = [[] for _ in range(v + 1)]
+for _ in range(e):
+    a, b = map(int, sys.stdin.readline().split())
+    graph[a].append(b)
+
+stack = []
+low = [-1] * (v + 1)
+ids = [-1] * (v + 1)
+visited = [0] * (v + 1)
+idid = 0
+result = []
+
+
+def dfs(x, low, ids, visited, stack):
+    global idid
+    ids[x] = idid
+    low[x] = idid
+    idid += 1
+    visited[x] = 1
+    stack.append(x)
+
+    for ne in graph[x]:
+        if ids[ne] == -1:
+            dfs(ne, low, ids, visited, stack)
+            low[x] = min(low[x], low[ne])
+        elif visited[ne] == 1:
+            low[x] = min(low[x], ids[ne])
+            
+	# low 가 같은 점들을 하나의 scc 로 묶음
+    w = -1
+    scc = []
+    if low[x] == ids[x]:	# 이 조건에 의해, 하나의 scc의 시작점에 올 때 까진 조건문 안의 코드가 실행되지 않는다.
+        					# 즉 하나의 scc 가 끝날 때까지는 계속 재귀함수 안에서의 pop 효과?가 발생
+        while w != x:
+            w = stack.pop()
+            scc.append(w)
+            visited[w] = -1
+        result.append(sorted(scc))
+
+# id가 정해지지 않은 모든 점에서 dfs 실시
+for i in range(1, v + 1):
+    if ids[i] == -1:
+        dfs(i, low, ids, visited, stack)
+# 정답 출력
+print(len(result))
+for i in sorted(result):
+    print(*i, -1)
+
+```
+
 
 
 
