@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #number {
+      font-size: 30px;
+    }
+
+    .box {
+      width: 50px;
+      height: 50px;
+      border: solid 1px black;
+      display: inline-block;
+    }
+
+    .red {
+      background-color: red;
+    }
+    .green {
+      background-color: green;
+    }
+    .blue {
+      background-color: blue;
+    }
+  </style>
+</head>
+<body>
+  <p id="number">0</p>
+  <button id="minus">-</button>
+  <button id="plus">+</button>
+  
+  <hr>
+
+  <div class="red box"></div>
+  <div class="blue box"></div>
+  <div class="green box"></div>
+
+
+  <script>
+    // 코드 작성
+    // - 버튼을 누르면 숫자가 작아지고, + 버튼을 누르면 숫자가 커짐
+    let number = document.querySelector('#number')
+    const minusBtn = document.querySelector('#minus')
+    const plusBtn = document.querySelector('#plus')
+
+    minusBtn.addEventListener('click', function (event) {
+      number.innerText -= 1
+    })
+    plusBtn.addEventListener('click', function (event) {
+      // number.innerText += 1
+      number.innerText++
+    })
+
+    // 박스 누르면 해당 글의 색이 박스 색으로 바뀌도록
+    document.querySelector('.red')
+      .addEventListener('click', function (event) {
+        number.style.color = 'red'
+      })
+    document.querySelector('.blue')
+      .addEventListener('click', function (event) {
+        number.style.color = 'blue'
+      })
+    document.querySelector('.green')
+      .addEventListener('click', function (event) {
+        number.style.color = 'green'
+      })
+
+  </script>
+</body>
+</html>

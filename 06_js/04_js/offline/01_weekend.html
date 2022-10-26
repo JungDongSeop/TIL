@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h3>요일</h3>
+  <ul id="day">
+    <li>월요일</li>
+    <li>화요일</li>
+    <li>수요일</li>
+    <li>목요일</li>
+    <li>금요일</li>
+  </ul>
+
+  <script>
+    // code here
+    // 토요일, 일요일 넣기
+    const ul = document.querySelector('#day')
+
+    const sat = document.createElement('li')
+    sat.innerText = '토요일'
+    ul.appendChild(sat)
+
+    const sun = document.createElement('li')
+    sun.innerText = '일요일'
+    ul.prepend(sun)   // 맨 앞에 삽입
+
+    let start = document.createElement('p')
+    start.innerText = 'start'
+    ul.before(start)  // ul의 맨 뒤에 삽입
+
+    let end = document.createElement('p')
+    end.innerText = 'end'
+    ul.after(end)
+
+    const mon = ul.children[1]    // 월요일 삭제
+    mon.remove()
+
+  </script>
+</body>
+</html>
