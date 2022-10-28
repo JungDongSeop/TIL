@@ -16,12 +16,13 @@
     <p>글 제목 : {{ article.title }}</p>
     <p>글 내용 : {{ article.content }}</p>
     <div>
+      {% comment %} 좋아요!! {% endcomment %}
       <form class="like-form" data-article-id="{{ article.pk }}">
         {% csrf_token %}
         {% if user in article.like_users.all %}
-          <button id="like-{{ article.pk }}">좋아요 취소</button>
+          <button id="like-{{ article.pk }}">🤍</button>
         {% else %}
-          <button id="like-{{ article.pk }}">좋아요</button>
+          <button id="like-{{ article.pk }}">💖</button>
         {% endif %}
       </form>
       <p>
@@ -37,7 +38,48 @@
 {% endblock content %}
 
 {% block script %}
+  <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
   <script>
     // CODE HERE
+    const forms = document.querySelectorAll('.like-form')
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value
+
+    forms.forEach((form) => {
+      // const form = document.querySelector('.like-form')
+
+      form.addEventListener('submit', function (event) {
+        event.preventDefault()
+
+        // dataset 안에 articleId 가 생긴 이유는, 위에 form 태그 안에 data-article-id 를 직접 설정해줬기 때문에
+        //console.log(event.target)   // event.target 은 이벤트리스너의 실행 대상인 form 을 의미
+        //console.log(event.target.dataset)
+        const { articleId } = event.target.dataset
+
+        axios({
+          method: 'post',
+          url: `/articles/${articleId}/likes/`,
+          headers: {'X-CSRFToken': csrfToken}   // 내가 누군지 인증할 정보
+        })
+        .then(function (response) {
+          const isLiked = response.data.is_liked
+          const likedCount = response.data.liked_count
+          const likeBtn = document.querySelector(`#like-${articleId}`)
+          const likeBtnSpan = document.querySelector(`#like-count-${articleId}`)
+
+          likeBtn.innerText = isLiked ? '🤍' : '💖'
+          likeBtnSpan.innerText = likedCount
+
+        })
+        .catch(function (error) {
+          if (error.response.status === 401) {
+            alert('로그인 하세요!')
+            //location.pathname = ''
+            location.href = '/accounts/login/'
+          } else if (error.response.status === 403) {
+            alert('권한이 없습니다.')
+          }
+        })
+      })
+    })
   </script>
 {% endblock script %}

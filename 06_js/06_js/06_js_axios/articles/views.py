@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_http_methods, require_POST, require_safe
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from .models import Article, Comment
 from .forms import ArticleForm, CommentForm
 
@@ -105,4 +105,21 @@ def comments_delete(request, article_pk, comment_pk):
 @require_POST
 def likes(request, article_pk):
     # CODE HERE
-    pass
+    article = get_object_or_404(Article, pk=article_pk)
+
+    if request.user.is_authenticated:
+        if article.like_users.filter(pk=request.user.pk).exists():
+            article.like_users.remove(request.user)
+            is_liked = False
+        else:
+            article.like_users.add(request.user)
+            is_liked = True
+        # 좋아요 했는지 안했는지를 JSON 데이터로 전송
+        context = {
+            'is_liked': is_liked,
+            'liked_count': article.like_users.count(),
+        }
+        # return redirect('articles:index')
+        return JsonResponse(context)
+    
+    return HttpResponse(status=401)
