@@ -107,6 +107,7 @@ mounted
 
 - 인스턴스가 요소에 mount된 후 호출됨
 - mount된 요소 조작 가능
+- 자식 컴포넌트가 먼저 mount되고, 이후 부모 컴포넌트가 mount
 
 
 
