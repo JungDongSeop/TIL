@@ -20,6 +20,8 @@ lodash 쓰는 법
 
 v-model, v-on, v-bind
 
+v-bind 를 해야 JS 형태로 변수, 함수 등을 사용할 수 있다.
+
 - v-model
 
   - 양방향 바인딩
