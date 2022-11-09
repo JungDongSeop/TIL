@@ -836,7 +836,7 @@ while stack:
         answer.append(sorted(ssc))
 
 answer.sort()
-print(len(answer))
+print(len(answer))	
 for i in answer:
     print(*i, -1)
 
@@ -853,7 +853,7 @@ https://ca.ramel.be/166?category=935131 그림 참조
 1. dfs 를 실행해 나가면서, i 번째로 방문한 nonvisited 노드는 id = i 로 설정, low 는 기본적으로 id 와 같게 설정하되, 노드 X에서 visited node Y를 방문한 경우 (혹은 이전 노드로 되돌아가는 경우) low_X = low_Y 로 재설정 (이 경우 X, Y 는 같은 low를 가지므로, 하나의 SCC)
 
 ```python
-v, e = map(int, sys.stdin.readline().split())
+	v, e = map(int, sys.stdin.readline().split())
 graph = [[] for _ in range(v + 1)]
 for _ in range(e):
     a, b = map(int, sys.stdin.readline().split())
@@ -905,6 +905,95 @@ for i in sorted(result):
 ```
 
 
+
+## 2-sat
+
+SCC 알고리즘 사용
+
+https://m.blog.naver.com/kks227/220803009418 참조
+
+11280_2-SAT-3
+
+```python
+import sys
+input = sys.stdin.readline
+sys.setrecursionlimit(100005)
+
+# 2-SAT 문제는 SCC 를 활용해 다항시간 안에 풀 수 있다.
+# SCC 라는 힌트를 들어도 발상을 떠올리진 못했다.
+# -N ~ N , 총 2N개의 노드를 가진 그래프 구현
+# -1, 2 가 주어진 경우, 1 => 2 인 edge 와 -2 => -1 인 edge 를 그래프에 그린다.
+# 이후 SCC 구현. 각각의 SCC 에 대해, 1 ~ N 중 임의의 i 에 대해 i, -i 둘 다 SCC 안에 속하게 된다면
+# 2-sat 은 불가능
+
+# 코사라주 알고리즘 사용
+def solve():
+    # 코사라주 알고리즘을 위한 dfs. stack 에는 dfs 가 막힌 순서대로 노드 입력
+    def dfs(now, visited, stack, adjList):
+        visited[now] = True
+        for next in adjList[now]:
+            if not visited[next]:
+                dfs(next, visited, stack, adjList)
+        stack.append(now)
+
+
+    # 역 dfs 함수
+    def dfs_reverse(now, visited, stack, adjList_reverse, i):
+        visited[now] = i
+        # stack.append(now)
+        for next in adjList_reverse[now]:
+            if visited[next] == -1:
+                dfs_reverse(next, visited, stack, adjList_reverse, i)
+
+
+    N, M = map(int, input().split())
+    adjList = {i: set() for i in range(2*N+1)}
+    adjList_reverse = {i: set() for i in range(2*N+1)}
+    for _ in range(M):
+        a, b = map(int, input().split())
+        adjList[N-a].add(N+b)
+        adjList[N-b].add(N+a)
+        adjList_reverse[N+b].add(N-a)
+        adjList_reverse[N+a].add(N-b)
+
+    stack = []
+    visited = [False] * (2*N+1)
+    for now in range(2*N+1):
+        if not visited[now]:
+            dfs(now, visited, stack, adjList)
+
+    # 각 scc 들을 구한 뒤 저장
+    # visited = [False] * (2*N+1)
+    visited = [-1] * (2*N+1)
+    scc = [-1] * (2*N+1)
+    while stack:
+        # scc = []
+        now = stack.pop()
+        if visited[now] == -1:
+            dfs_reverse(now, visited, scc, adjList_reverse, now)
+
+            # 2-sat 이 불가능하면, 즉시 종료
+            # for i in range(1, N+1):
+            #     if N-i in scc and N+i in scc:
+            #         print(0)
+            #         exit(0)
+            # 이렇게 구하면 시간복잡도가 O(4*N^2) 이 돼서 시간초과
+            # 시간복잡도를 줄이기 위해, visited 안에 True 를 저장하는 게 아닌,
+            # 해당 SCC 의 시작점을 저장해서, 이후 visited 로 같은 SCC 인지 판단하도록 구현
+            # 위 목적에 따라 dfs_reverse 도 적절히 수정
+
+    # 2-sat 이 불가능하면, 정답 출력, 중지
+    for i in range(1, N+1):
+        if visited[N-i] == visited[N+i]:
+            print(0)
+            exit(0)
+    # 2-sat 이 가능하면, 정답 출력
+    print(1)
+
+    
+solve()
+
+```
 
 
 
