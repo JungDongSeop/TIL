@@ -86,6 +86,27 @@ axios 사용
 
 - https://herojoon-dev.tistory.com/131  참조
 - `npm i axios` 해서 설치한 뒤, main.js 에 axios 임포트하기
+- API 사용 시 헷갈리면 axios github 가서 찾아보기
+
+  - ```js
+    axios.get('/user', {
+        params: {
+          ID: 12345
+        }
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .finally(function () {
+        // always executed
+      });
+    ```
+
+- 위 방식으로 하지 말고,
+
 
 
 
@@ -96,5 +117,22 @@ keyup.enter
 
 
 
+emit 하는 법
+
+1. 자식 컴포넌트에서 함수 만들고, emit 함수 실행
+
+   `this.$emit('send-input-search-bar', this.inputSearchBar)`
+
+2. 부모 컴포넌트에서 emit 받는 함수 만들기
+
+3. 부모 컴포넌트에서 <div> 안의 자식 컴포넌트에 v-on으로 함수 연결
+
+   `<{자식 컴포넌트} @{부모 컴포넌트의 함수 명}="{자식 컴포넌트에서의 emit 함수 명}"`
 
 
+
+유튜브 API 활용
+
+- https://developers.google.com/youtube/v3/docs/search/list?hl=ko 참조
+- axios 사용 시, 그냥 url에 key, part, 그런거 전부 넣어버리기
+- 
