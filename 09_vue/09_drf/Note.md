@@ -45,6 +45,53 @@ CORS
 
 # DRF Auth System
 
+Authentication 
+
+- 인증, 입증
+- 사용자가 누구인지 확인하는 행위
+- 401 Unauthorized
+  - 미승인
+
+
+
+Authorization
+
+- 권한 부여, 허가
+- 인증이 먼저 필요 (ID가 진짜 사용자인지)
+- 403 Forbidden
+  - 서버는 클라이언트가 누구인지 알고 있음
+
+
+
+settings.py에는 기본적인 인증 절차를 어떠한 방식으로 둘 것인지를 설정해야함
+
+- 우리는 TokenAuthentication 사용
+- 모든 상황에 대한 인증 방식을 정의하는 것이므로, 각 요청에 따라 다른 인증 방식을 거치고자 한다면 다른 방식이 필요
+  - 이 경우 view 함수마다 (각 요청마다) 다른 종류의 데코레이터 설정
+
+
+
+종류
+
+- BasicAuthentication, SessionAuthentication, RemoteUserAuthentication 등
+- TokenAuthentication
+  - 간단하게 구현 가능, 기본적인 보안 기능, 다양한 외부 패키지(확장성 좋음)
+  - 매 요청마다 토큰을 같이 전송
+    - `Authorization: Token 9944b~~~` (공백 지키기)
+  - 문제점
+    - 토큰 생성 시점, 관리 방법, 기능 관리 등
+  - Dj-Rest-Auth
+    - 회원가입, 인증, 비밀번호 재설정, 사용자 정보 검색, 정보 수정 등을 위한 REST API end point 제공
+    - 프로젝트의 urls.py에서 `path('accounts/', include('dj-rest-auth.urls'))` 한줄만 쳐도 accounts/password, login, logout 등 다양한 기능을 사용 가능
+    - 회원가입은 없음. 토큰을 생성해서 인증해야하기 때문에
+    - dj-rest-auth 공식 문서 참조
+
+
+
+실습
+
+- 회원가입 완료 시 Token을 store에서 관리함 (action을 통해 state에 저장)
+
 
 
 # DRF Auth with Vue

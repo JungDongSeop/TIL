@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     # Django Apps
-    # 'accounts',
+    'accounts',
     'articles',
 
     'rest_framework',
@@ -41,18 +41,19 @@ INSTALLED_APPS = [
     "corsheaders",
 
     # Auth
-    # 'rest_framework.authtoken',
-    # 'dj_rest_auth',
+    # 인증 시스템. 아래 코드 입력 후 다시 migrate
+    'rest_framework.authtoken',
+    'dj_rest_auth',
 
     # registration
-    # 'django.contrib.sites',
-    # 'allauth',
-    # 'allauth.account',
-    # 'allauth.socialaccount',
-    # 'dj_rest_auth.registration',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'dj_rest_auth.registration',
 
     # OpenAPI 3.0
-    # 'drf_spectacular',
+    'drf_spectacular',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -64,29 +65,31 @@ INSTALLED_APPS = [
 
 SITE_ID = 1
 
-# REST_FRAMEWORK = {
-#     # Authentication
-#     'DEFAULT_AUTHENTICATION_CLASSES': [
-#         'rest_framework.authentication.TokenAuthentication',
-#     ],
+# 인증 방식 결정? 모든 요청에 토큰이 필요하다.
+REST_FRAMEWORK = {
+    # Authentication
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
 
-#     # permission
-#     # 'DEFAULT_PERMISSION_CLASSES': [
-#     #     # 'rest_framework.permissions.IsAuthenticated',
-#     #     'rest_framework.permissions.AllowAny',
-#     # ],
+    # permission
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+        # 모두 허용 (인증된 사용자에 대해, 모든 view 요청을 허용함)
+        'rest_framework.permissions.AllowAny',
+    ],
 
-#     # spectacular Settings
-#     # 'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
-# }
+    # spectacular Settings
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
 
-# SPECTACULAR_SETTINGS = {
-#     'TITLE': 'Your Project API',
-#     'DESCRIPTION': 'Your project description',
-#     'VERSION': '1.0.0',
-#     'SERVE_INCLUDE_SCHEMA': False,
-#     # OTHER SETTINGS
-# }
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Your Project API',
+    'DESCRIPTION': 'Your project description',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -181,4 +184,4 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# AUTH_USER_MODEL = 'accounts.User'
+AUTH_USER_MODEL = 'accounts.User'
