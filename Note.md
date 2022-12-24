@@ -1,4 +1,4 @@
-파일 open 할 대
+파일 open 할 때
 
 ```python
 # 파일 열기
