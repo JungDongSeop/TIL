@@ -56,11 +56,7 @@ path parameter
 - &language=en_US (아니면 en_UK, ko_KR 등등 골라서)
 - 이렇게 경로를 만들어서 request 하면 됨
 
-responses
 
-- 200 : 성공
-- 404 : 요청한 주소 존재하지 않음
-- 401 : 인증받지 않은 유저 (api key 없을 때)
 
 python requests 사용법
 
