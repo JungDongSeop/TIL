@@ -46,16 +46,6 @@ dictionary는 sequence가 아님
 
 dictA.get('key') 할 때 key가 없으면 None 반환
 
-.
-
-path parameter
-
-- 중괄호 안에 들어갈 단어?
-- ? 뒤 Query String
-- ?api_key=___
-- &language=en_US (아니면 en_UK, ko_KR 등등 골라서)
-- 이렇게 경로를 만들어서 request 하면 됨
-
 
 
 python requests 사용법
