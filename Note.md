@@ -79,11 +79,6 @@ params = {                    # query string
 response = requests.get(URL, params=params).json()
 ```
 
-- html : CSS 선택자에 마우스 올리면 명시도? 순서도? 나타남
-- bootstrap 에서 d-flex는 부모의 class에 부여, 그 후 정렬하고 싶은거 생기면 임의로 부모 만든 뒤 justify~ 작성
-- 이미지 크기 조절은 `<a>`에서 `style="width: 30px"`, `<img>`에서 `class="img-fluid"`
-- 이미지 간격 조절은 `<a>`에서 `class="mx-3"`
-
 
 
 ## 관통 PJT
