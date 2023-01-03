@@ -202,4 +202,4 @@ pjt 하나 당 1 repository 만들어서 올리기
   git config --global user.email 사용자이메일
   ```
   
-- 윈도우 자격 증명 관리자 가서 git 설정 다 됐나 확인
+- 윈도우 자격 증명 관리자 가서 git 설정 다 됐나 확인 
