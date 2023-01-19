@@ -30,7 +30,7 @@ export default Counter
 
 - 설명
   - `const [value, setValue] = useState(0);` 형태로 사용
-  - useState 함수의 파라미터에는 기본값 `0` 입력
+  - `useState` 함수의 파라미터에는 기본값 `0` 입력
   - `useState` 함수가 호출되면, 배열을 반환
   - `value` : 상태값, `setValue` : 상태를 설정하는 함수. 이 함수의 인자로 상태값이 변경됨
 
