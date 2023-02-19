@@ -180,6 +180,32 @@ pjt 하나 당 1 repository 만들어서 올리기
 
 
 
+### Git pull 시 merge 오류 날 때 강제로 덮어쓰기
+
+it pull 시 stash 또는 merge 를 우선 하라고 나올 때, 중요하지 않은 파일 또는 덮어쓰기 해도 무방한 파일일때는 덮어쓰기 하는 것이 빠르다.
+
+1. git pull 받을 목록을 repository 에서 업데이트
+
+```xml
+git fetch --all
+```
+
+2. git reset 으로 head를 최신으로 가리킨다
+
+```xml
+git reset --hard origin/master
+```
+
+3. git pull 로 확인
+
+```xml
+git pull
+```
+
+이렇게 하면 그냥 최신버전 헤드를 가리킴으로써 덮어쓰기와 같은 효과가 된다.
+
+
+
 # 새로  git 설정하는 방법
 
 - git clone <원하는 url>
