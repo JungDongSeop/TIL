@@ -227,7 +227,7 @@
   ....{
       ....{
           List<Integer> list1 = new ArrayList<>();
-          List<Integer> list2 = bew ArrayList<Integer>();
+          List<Integer> list2 = new ArrayList<Integer>();
           ArrayList<Integer> list3 = new ArrayList<>();
           
           list.add("치킨", "족발");
@@ -252,7 +252,7 @@
 
 - ```java
    import java.util.Set;
-  
+    
   ....{
       ....{
           Set<String> myFavoriteFoods) = new HashSet<>();
