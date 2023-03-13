@@ -31,6 +31,7 @@ SDK 설치 (공식문서 대신 chocolatey 사용 https://chocolatey.org/install
    - 이 때 `command not found` 에러가 나면, 경로 문제일 가능성이 있음. 
      - `윈도우 검색 - 시스템 환경 변수 편집 - 고급 - 환경 변수 - 시스템 변수` 에서 `Path`를 누르고, flutter가 설치된 위치를 path에 추가 (파워쉘 코드를 읽다 보면 경로를 알 수 있을지도?).
      - 만약 `C:\tools\flutter`처럼 flutter가 설치되어 있으면 path에 `C:\tools\flutter\bin` 을 추가
+     - 이후 파워쉘 껏다켜기
 
 3. 안드로이드 시뮬레이터 설치
 
@@ -63,4 +64,69 @@ dartpad.dev/ 로 가면 설치할 필요 없이 flutter 코드 실행 및 샘플
 
 
 # 2. Running Flutter
+
+- vs code 에서 `flutter create 앱_이름` 해서 만들고, 해당 앱에서 vscode 열고
+- `ctrl+shift+P` 해서 
+
+https://hileejaeho.cafe24.com/docs/flutter/vscode%EC%97%90%EC%84%9C-emulator%EB%A1%9C-%EC%8B%A4%ED%96%89%ED%95%98%EA%B8%B0/
+
+처럼 하고 기다리면 휴대폰 화면이 보일 것
+
+
+
+
+
+# 3. Hello World
+
+https://flutter-ko.dev/docs/reference/widgets
+
+다양한 widget (레고 블럭) 사용 가능
+
+
+
+위젯 상속
+
+- 위젯 상속 시 항상 build가 필요함
+
+화면이 scaffold임을 기억할 것 
+
+- 그래서 Scaffold 클래스가 필요
+
+
+
+기타
+
+- 클래스 만들 때마다 `,`, 찍으면 보기좋게 정리해준다
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(App());
+}
+
+// 위젯 상속
+class App extends StatelessWidget {
+  // build 완성
+  @override
+  Widget build(BuildContext context) {
+    // App 위젯은 우리의 루트 위젯이라서, 두 옵션 중 하나를 return해야함
+    // 1. material 앱을 return (구글 디자인 시스템)
+    // 2. cupertino 앱 return (애플 디자인 시스템)
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Hello flutter!'),
+        ),
+        body: Center(
+          child: Text('Hello world!'),
+        ),
+      ),
+    );
+  }
+}
+
+```
+
+
 
