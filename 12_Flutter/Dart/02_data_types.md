@@ -18,9 +18,6 @@ object
 - num
   - num으로 선언한 경우 int, double 둘 다 가능
 
-```dart
-```
-
 
 
 # 1. Lists
