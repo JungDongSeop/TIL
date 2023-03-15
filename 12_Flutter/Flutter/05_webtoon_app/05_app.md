@@ -106,3 +106,16 @@ class ApiService {
 }
 ```
 
+
+
+# 5. waitForWebToons
+
+Future 데이터 출력하기
+
+fetch를 state에 저장하기 (간단한 방법)
+
+
+
+# 6. FuterBuilder
+
+  
